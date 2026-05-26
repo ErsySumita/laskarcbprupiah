@@ -5,96 +5,123 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Edukasi CBP Rupiah</title>
     <style>
-        /* Tata Letak Dasar & Warna Modern */
+        /* Tata Letak Dasar - Super Clean & Fresh */
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; color: #333; line-height: 1.6; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background-color: #f8fafc; color: #334155; line-height: 1.6; }
         
-        /* Banner Atas */
-        header { background: linear-gradient(135deg, #0f4c81, #1f8a70); color: white; text-align: center; padding: 50px 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.15); }
-        header h1 { font-size: 2.4rem; margin-bottom: 10px; font-weight: 700; }
-        header p { font-size: 1.1rem; opacity: 0.9; }
-
-        .container { max-width: 850px; margin: 40px auto; padding: 0 20px; }
-
-        /* Desain Judul Utama */
-        .main-title { color: #0f4c81; text-align: center; margin-bottom: 25px; font-size: 1.8rem; }
-
-        /* ================= STYLE ACCORDION (KLIK-BUKA) ================= */
-        .accordion-item { background: white; border-radius: 12px; margin-bottom: 15px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); overflow: hidden; border: 1px solid #eef2f5; }
+        /* ================= BANNER BIRU PUTIH MINIMALIS ================= */
+        header { 
+            background: linear-gradient(135deg, #f0f9ff, #ffffff); 
+            padding: 50px 20px; 
+            text-align: center;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+        }
+        .banner-flex { display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; }
+        .banner-img-top { width: 100%; max-width: 320px; height: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
+        .logo-maskot { width: 90px; height: 90px; object-fit: cover; border-radius: 50%; background: white; padding: 4px; border: 2px solid #bae6fd; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
         
-        /* Tombol Judul */
-        .accordion-header { background-color: white; color: #0f4c81; padding: 20px; width: 100%; text-align: left; border: none; font-size: 1.3rem; font-weight: bold; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: background 0.3s; }
-        .accordion-header:hover { background-color: #f8fafd; }
-        
-        /* Simbol Panah di Kanan */
-        .accordion-header::after { content: '▼'; font-size: 0.9rem; color: #1f8a70; transition: transform 0.3s; }
-        .accordion-header.active::after { transform: rotate(-180deg); }
+        header h1 { font-size: 2.2rem; font-weight: 800; color: #0369a1; letter-spacing: -0.5px; }
+        header p { font-size: 1.1rem; color: #0c4a6e; font-weight: 500; opacity: 0.8; }
 
-        /* Wadah Isi Materi (Tersembunyi secara default) */
-        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background-color: #fff; }
-        
-        /* Lapisan Dalam Isi Materi */
-        .materi-body { padding: 0 25px 25px 25px; border-top: 1px solid #f4f7f6; }
-        
-        /* Desain Sub-Bab di dalam Materi */
-        .sub-materi { background-color: #fafbfc; border-left: 5px solid #1f8a70; padding: 18px; margin: 20px 0; border-radius: 0 8px 8px 0; }
-        .sub-materi h3 { color: #2c3e50; margin-bottom: 10px; font-size: 1.25rem; }
+        .container { max-width: 800px; margin: 40px auto; padding: 0 20px; }
+        .main-title { color: #0f172a; text-align: center; margin-bottom: 30px; font-size: 1.6rem; font-weight: 700; }
 
-        /* Pengaturan List & Teks */
-        ul { margin-left: 20px; margin-bottom: 12px; }
+        /* ================= ACCORDION & RINGKASAN JUDUL ================= */
+        .accordion-item { background: white; border-radius: 14px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); border: 1px solid #e2e8f0; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; }
+        .accordion-item:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.04); }
+        
+        /* Tombol Header Pembungkus Ringkasan */
+        .accordion-header { background: white; width: 100%; padding: 22px; border: none; text-align: left; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 15px; }
+        
+        /* Bagian Kiri: Ikon + Teks Ringkas */
+        .header-main-content { display: flex; align-items: center; gap: 18px; flex: 1; }
+        .header-icon { font-size: 2.2rem; background: #f0f9ff; width: 55px; height: 55px; display: flex; align-items: center; justify-content: center; border-radius: 12px; color: #0284c7; }
+        .header-text-block { display: flex; flex-direction: column; gap: 2px; }
+        .header-text-block h3 { font-size: 1.25rem; font-weight: 700; color: #0f172a; }
+        .header-text-block p { font-size: 0.9rem; color: #64748b; font-weight: 400; }
+        
+        /* Simbol Panah */
+        .arrow-icon { font-size: 0.8rem; color: #94a3b8; transition: transform 0.3s; padding-right: 5px; }
+        .accordion-header.active .arrow-icon { transform: rotate(-180deg); color: #0284c7; }
+
+        /* Isi Materi Tersembunyi */
+        .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background-color: #ffffff; }
+        .materi-body { padding: 5px 25px 30px 25px; border-top: 1px solid #f1f5f9; color: #334155; font-size: 1rem; }
+        
+        /* Desain Sub-Bab Di Dalam Materi */
+        .sub-materi { background-color: #f8fafc; border-left: 4px solid #38bdf8; padding: 20px; margin: 20px 0; border-radius: 0 10px 10px 0; }
+        .sub-materi h4 { color: #1e293b; margin-bottom: 8px; font-size: 1.15rem; font-weight: 700; }
+
+        ul, ol { margin-left: 22px; margin-bottom: 15px; }
         li { margin-bottom: 6px; }
-        h4 { color: #1f8a70; margin: 12px 0 6px 0; font-size: 1.1rem; }
+        h5 { color: #0284c7; margin: 15px 0 6px 0; font-size: 1.05rem; font-weight: 600; }
 
-        /* Kotak Khusus / Highlight */
-        .box-highlight { background-color: #fff3cd; border-left: 5px solid #ffc107; padding: 15px; border-radius: 6px; margin: 15px 0; color: #856404; }
-        .box-highlight-green { background-color: #e8f5e9; border-left: 5px solid #4caf50; padding: 15px; border-radius: 6px; margin: 15px 0; color: #1b5e20; }
-        .box-highlight-red { background-color: #ffebee; border-left: 5px solid #f44336; padding: 15px; border-radius: 6px; margin: 15px 0; color: #c62828; }
-        .badge-3d { display: inline-block; background: #e1f5fe; color: #0288d1; padding: 2px 8px; border-radius: 10px; font-weight: bold; font-size: 0.85rem; }
+        /* Kotak Notifikasi / Highlight Ciri Khas */
+        .box-highlight { background-color: #fffbeb; border-left: 4px solid #f59e0b; padding: 15px; border-radius: 6px; margin: 15px 0; color: #78350f; }
+        .box-highlight-green { background-color: #f0fdf4; border-left: 4px solid #22c55e; padding: 15px; border-radius: 6px; margin: 15px 0; color: #14532d; }
+        .box-highlight-red { background-color: #fef2f2; border-left: 4px solid #ef4444; padding: 15px; border-radius: 6px; margin: 15px 0; color: #7f1d1d; }
+        .badge-3d { display: inline-block; background: #e0f2fe; color: #0369a1; padding: 2px 8px; border-radius: 8px; font-weight: bold; font-size: 0.8rem; margin-right: 5px; }
 
-        /* Tabel Kebutuhan vs Keinginan */
-        table { width: 100%; border-collapse: collapse; margin: 15px 0; background: white; border-radius: 6px; overflow: hidden; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
-        th, td { padding: 10px 12px; text-align: left; border-bottom: 1px solid #eef2f5; }
-        th { background-color: #1f8a70; color: white; }
+        table { width: 100%; border-collapse: collapse; margin: 15px 0; background: white; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        th { background-color: #f1f5f9; color: #334155; font-weight: 600; }
 
-        /* ================= PENGATURAN GAMBAR RUPIAH ================= */
-        .materi-img { width: 100%; max-width: 500px; border-radius: 8px; display: block; margin: 15px auto; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-        .img-caption { text-align: center; font-size: 0.85rem; color: #777; margin-top: -10px; margin-bottom: 15px; font-style: italic; }
+        /* Pengaturan Gambar Materi */
+        .materi-img { width: 100%; max-width: 450px; border-radius: 8px; display: block; margin: 20px auto; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .img-caption { text-align: center; font-size: 0.85rem; color: #64748b; margin-top: -12px; margin-bottom: 20px; font-style: italic; }
 
-        /* Seksi Selanjutnya (Sengaja Disembunyikan Dulu) */
-        .placeholder-section { background: #e9ecef; border: 2px dashed #ced4da; text-align: center; padding: 20px; border-radius: 12px; margin-bottom: 20px; color: #6c757d; font-size: 0.9rem; }
-
-        footer { text-align: center; padding: 30px; color: #777; font-size: 0.9rem; margin-top: 50px; border-top: 1px solid #ddd; }
+        /* Pembungkus Seksi Selanjutnya */
+        .placeholder-section { background: #f1f5f9; border: 2px dashed #cbd5e1; text-align: center; padding: 25px; border-radius: 14px; margin-bottom: 20px; color: #64748b; font-size: 0.95rem; }
+        footer { text-align: center; padding: 35px; color: #94a3b8; font-size: 0.9rem; margin-top: 60px; border-top: 1px solid #e2e8f0; }
     </style>
 </head>
 <body>
 
     <header>
+        <div class="banner-flex">
+            <img src="rupiah.png" alt="Rupiah Indonesia" class="banner-img-top" onerror="this.style.display='none'">
+            <img src="maskot.jpeg" alt="Maskot CBP" class="logo-maskot" onerror="this.style.display='none'">
+        </div>
         <h1>Cinta, Bangga, Paham Rupiah</h1>
-        <p>Media Edukasi Interaktif Mengenal Mata Uang Republik Indonesia</p>
+        <p>Media Edukasi Interaktif Mengenal Mata Uang Negara Kita</p>
     </header>
 
     <div class="container">
         
-        <h2 class="main-title">📖 Silakan Pilih Materi Pembelajaran:</h2>
+        <h2 class="main-title">🎯 Pilih Topik Pembelajaran:</h2>
 
         <div class="accordion-item">
-            <button class="accordion-header">🇮🇩 1. PENDAHULUAN & SEJARAH</button>
+            <button class="accordion-header">
+                <div class="header-main-content">
+                    <div class="header-icon">🇮🇩</div>
+                    <div class="header-text-block">
+                        <h3>1. Pendahuluan & Sejarah</h3>
+                        <p>Mengenal asal-usul, arti, dan gerakan penting CBP Rupiah.</p>
+                    </div>
+                </div>
+                <div class="arrow-icon">▼</div>
+            </button>
             <div class="accordion-content">
                 <div class="materi-body">
                     <p style="margin-top: 15px;"><strong>Rupiah</strong> adalah mata uang resmi Indonesia yang hadir dalam berbagai pecahan seperti Rp1.000, Rp50.000, hingga Rp100.000. Lebih dari sekadar alat pembayaran, setiap lembar Rupiah merupakan simbol perjuangan, kedaulatan, dan identitas bangsa yang merekam kekayaan tokoh, budaya, flora, serta fauna Nusantara.</p>
                     
-                    <img src="https://bi.go.id/id/rupiah/gambar-uang/PublishingImages/Uang-Kertas-TE-2022.jpg" alt="Uang Rupiah Kertas Emisi Terbaru 2022" class="materi-img">
-                    <p class="img-caption">Gambar: Serangkai Uang Rupiah Kertas Tahun Emisi Terbaru (Sumber: Bank Indonesia)</p>
+                    <img src="https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?q=80&w=600" alt="Uang Kertas Rupiah" class="materi-img">
+                    <p class="img-caption">Gambar: Ilustrasi Lembaran Uang Kertas Rupiah</p>
 
-                    <h4>📜 Sekilas Sejarah Rupiah</h4>
+                    <h5>📜 Sekilas Sejarah Rupiah</h5>
                     <ul>
-                        <li><strong>Asal-usul Nama:</strong> Berasal dari bahasa Sanskerta <em>"rupya"</em> yang berarti perak atau kekayaan.</li>
+                        <li><strong>Asal-usul Name:</strong> Berasal dari bahasa Sanskerta <em>"rupya"</em> yang berarti perak atau kekayaan.</li>
                         <li><strong>Hari Lahir:</strong> Resmi lahir pada <strong>30 Oktober 1946</strong> melalui penerbitan Oeang Republik Indonesia (ORI) sebagai wujud kedaulatan ekonomi pascakemerdekaan.</li>
                         <li><strong>Pengelola Tunggal:</strong> Sejak tahun 1953, Bank Indonesia resmi memegang mandat penuh sebagai penerbit dan pengelola tunggal mata uang Rupiah.</li>
                     </ul>
 
                     <div class="box-highlight-green">
-                        <h4>✨ Gerakan Cinta, Bangga, Paham (CBP) Rupiah</h4>
+                        <h5>✨ Gerakan Cinta, Bangga, Paham (CBP) Rupiah</h5>
                         <p>Untuk menjaga nilai dan kehormatan mata uang negara, Bank Indonesia mengajak seluruh masyarakat untuk menerapkan tiga sikap utama:</p>
                         <ul style="margin-top: 8px;">
                             <li><strong>Cinta Rupiah:</strong> Mengenali, merawat, dan menjaga fisik uang agar tidak rusak.</li>
@@ -103,10 +130,10 @@
                         </ul>
                     </div>
 
-                    <h4>❓ Apa Itu Rupiah?</h4>
+                    <h5>❓ Apa Itu Rupiah?</h5>
                     <p>Rupiah adalah alat pembayaran yang sah di Indonesia. Artinya, semua transaksi di wilayah Indonesia wajib menggunakan rupiah sesuai Undang-Undang Mata Uang. Simbol rupiah adalah <strong>Rp</strong>.</p>
                     
-                    <h4>Contoh penggunaan rupiah sehari-hari:</h4>
+                    <h5>Contoh penggunaan rupiah sehari-hari:</h5>
                     <ul>
                         <li>🍔 Membeli makanan</li>
                         <li>🚌 Membayar ongkos kendaraan</li>
@@ -119,12 +146,21 @@
         </div>
 
         <div class="accordion-item">
-            <button class="accordion-header">❤️ 2. CINTA RUPIAH</button>
+            <button class="accordion-header">
+                <div class="header-main-content">
+                    <div class="header-icon">❤️</div>
+                    <div class="header-text-block">
+                        <h3>2. Cinta Rupiah</h3>
+                        <p>Sikap menghargai uang dengan metode 3D dan gerakan 5 Jangan.</p>
+                    </div>
+                </div>
+                <div class="arrow-icon">▼</div>
+            </button>
             <div class="accordion-content">
                 <div class="materi-body">
                     <p style="margin-top: 15px;"><strong>Cinta Rupiah</strong> adalah sikap menghargai, menjaga, dan memperlakukan uang rupiah dengan baik. Bukan hanya sekadar memakai uang, tetapi juga memahami cara menjaga keaslian dan kondisi uang.</p>
                     
-                    <p style="margin-top: 10px;">Cinta rupiah terdiri dari 3 pilar utama:</p>
+                    <p style="margin-top: 10px;">Cinta rupiah terdiri dari:</p>
                     <ul>
                         <li>Mengenali Rupiah</li>
                         <li>Merawat Rupiah</li>
@@ -132,7 +168,7 @@
                     </ul>
 
                     <div class="sub-materi">
-                        <h3>🔍 A. Mengenali Rupiah</h3>
+                        <h4>🔍 A. Mengenali Rupiah</h4>
                         <p>Pada lembaran uang rupiah asli terdapat ciri-ciri khusus berikut:</p>
                         <ul>
                             <li>🇮🇩 Lambang negara Garuda Pancasila</li>
@@ -142,22 +178,22 @@
                         </ul>
                         
                         <div class="box-highlight">
-                            <h4>⭐ Cara Mengenali Uang Asli: Metode 3D</h4>
-                            <p>Selalu ingat metode resmi dari Bank Indonesia berikut ini:</p>
-                            <ul style="list-style: none; margin-left: 5px; margin-top: 5px;">
-                               <li><span class="badge-3d">1. DILIHAT</span> Perhatikan warna uang cerah, gambar jelas, dan benang pengaman terlihat utuh.</li>
-                               <li><span class="badge-3d">2. DIRABA</span> Bagian tertentu seperti gambar pahlawan atau angka nominal akan terasa kasar.</li>
-                               <li><span class="badge-3d">3. DITERAWANG</span> Angkat uang ke arah cahaya untuk melihat tanda air berupa gambar pahlawan.</li>
+                            <h5>⭐ Cara Mengenali Uang Asli: Metode 3D</h5>
+                            <p>Metode terkenal dari Bank Indonesia:</p>
+                            <ul style="list-style: none; margin-left: 5px; margin-top: 8px;">
+                               <li><span class="badge-3d">1. DILIHAT</span> Perhatikan warna uang cerah, gambar jelas, dan benang pengaman terlihat.</li>
+                               <li><span class="badge-3d">2. DIRABA</span> Bagian pahlawan atau nominal akan terasa agak kasar.</li>
+                               <li><span class="badge-3d">3. DITERAWANG</span> Terlihat tanda air (watermark) gambar pahlawan saat diarahkan ke cahaya.</li>
                             </ul>
                         </div>
                     </div>
 
                     <div class="sub-materi">
-                        <h3>🧼 B. Merawat Rupiah</h3>
-                        <p>Merawat uang berarti menjaga uang agar tetap bersih, mulus, dan tidak cepat rusak.</p>
+                        <h4>🧼 B. Merawat Rupiah</h4>
+                        <p>Merawat uang berarti menjaga uang agar tetap bersih dan tidak rusak.</p>
                         
                         <div class="box-highlight-red">
-                            <h4>🚫 Terapkan Gerakan 5 Jangan!</h4>
+                            <h5>🚫 Gerakan 5 Jangan</h5>
                             <ul>
                                 <li>❌ Jangan dilipat</li>
                                 <li>❌ Jangan dicoret</li>
@@ -167,23 +203,23 @@
                             </ul>
                         </div>
 
-                        <h4>Mengapa harus dirawat?</h4>
-                        <p>Uang yang rusak akan sulit dikenali keasliannya, cepat sobek, mengurangi estetika, serta memakan biaya besar bagi negara untuk mencetak uang baru sebagai pengganti.</p>
+                        <h5>Mengapa harus dirawat?</h5>
+                        <p>Karena uang yang rusak akan sulit dikenali keasliannya, cepat sobek, mengurangi kualitas uang, dan membutuhkan biaya besar untuk mencetak ulang.</p>
                         
-                        <h4>Contoh Sikap Baik Merawat Rupiah:</h4>
+                        <h5>Contoh Sikap Merawat Rupiah:</h5>
                         <ul>
-                            <li>👛 Menyimpan uang dalam posisi lurus di dompet (tidak dilipat dua).</li>
-                            <li>🙅‍♂️ Tidak menyalahgunakan uang kertas untuk mainan atau dekorasi merusak.</li>
+                            <li>👛 Menyimpan uang di dalam dompet agar rapi.</li>
+                            <li>🙅‍♂️ Tidak menjadikan uang mainan, tidak mencoret gambar pahlawan, dan tidak merobek uang.</li>
                         </ul>
                     </div>
 
                     <div class="sub-materi">
-                        <h3>🛡️ C. Menjaga Rupiah dari Uang Palsu</h3>
-                        <p>Uang palsu sangat merugikan masyarakat luas. Cara mengantisipasinya:</p>
+                        <h4>🛡️ C. Menjaga Rupiah dari Uang Palsu</h4>
+                        <p>Uang palsu sangat berbahaya dan merugikan. Masyarakat wajib:</p>
                         <ul>
-                            <li>Wajib paham ciri keaslian lewat 3D saat menerima kembalian.</li>
-                            <li>Menolak dengan sopan jika fisik uang terasa mencurigakan.</li>
-                            <li>🚨 Laporkan temuan uang mencurigakan ke Kantor Polisi atau Bank Indonesia terdekat.</li>
+                            <li>Mengenali ciri uang asli dengan saksama.</li>
+                            <li>Tidak menerima uang yang mencurigakan.</li>
+                            <li>🚨 Melapor ke kantor polisi atau kantor Bank Indonesia terdekat jika menemukan uang palsu.</li>
                         </ul>
                     </div>
                 </div>
@@ -191,79 +227,93 @@
         </div>
 
         <div class="accordion-item">
-            <button class="accordion-header">🦅 3. BANGGA RUPIAH</button>
+            <button class="accordion-header">
+                <div class="header-main-content">
+                    <div class="header-icon">🦅</div>
+                    <div class="header-text-block">
+                        <h3>3. Bangga Rupiah</h3>
+                        <p>Memahami Rupiah sebagai simbol negara, kedaulatan, dan pemersatu.</p>
+                    </div>
+                </div>
+                <div class="arrow-icon">▼</div>
+            </button>
             <div class="accordion-content">
                 <div class="materi-body">
-                    <p style="margin-top: 15px;"><strong>Bangga Rupiah</strong> artinya kita bangga menggunakan Rupiah karena memahami bahwa uang ini bukan sekadar alat tukar, melainkan simbol kedaulatan, identitas resmi, dan persatuan seluruh bangsa Indonesia.</p>
+                    <p style="margin-top: 15px;"><strong>Bangga Rupiah</strong> berarti bangga menggunakan rupiah sebagai mata uang Indonesia. Rupiah bukan hanya alat pembayaran, tetapi juga simbol negara dan persatuan bangsa.</p>
 
                     <div class="sub-materi">
-                        <h3>💪 A. Rupiah Sebagai Simbol Kedaulatan</h3>
-                        <p>Memiliki mata uang mandiri membuktikan bahwa Indonesia adalah negara merdeka dan berdaulat penuh atas ekonominya sendiri di mata dunia.</p>
+                        <h4>💪 A. Rupiah Sebagai Simbol Kedaulatan</h4>
+                        <p>Kedaulatan berarti negara memiliki kekuasaan sendiri. Jika suatu negara memiliki mata uang sendiri, berarti negara itu mandiri dan berdaulat. Penggunaan rupiah menunjukkan Indonesia negara yang kuat dan merdeka.</p>
                     </div>
 
                     <div class="sub-materi">
-                        <h3>🛒 B. Rupiah Sebagai Alat Pembayaran yang Sah</h3>
-                        <p>Berdasarkan UU No. 7 Tahun 2011, segala macam transaksi jual-beli di seluruh pelosok wilayah NKRI <strong>wajib</strong> menggunakan mata uang Rupiah demi menjaga stabilitas ekonomi nasional.</p>
+                        <h4>🛒 B. Rupiah Sebagai Alat Pembayaran yang Sah</h4>
+                        <p>Menurut UU No. 7 Tahun 2011, semua transaksi di wilayah Indonesia wajib menggunakan rupiah (seperti membeli makanan, tiket, belanja, atau bayar sekolah). Memakai rupiah membuat ekonomi kita menjadi lebih stabil.</p>
                     </div>
 
                     <div class="sub-materi">
-                        <h3>🤝 C. Rupiah Sebagai Pemersatu Bangsa</h3>
-                        <p>Meskipun Indonesia terbagi atas ribuan pulau, suku, dan bahasa daerah, kita disatukan oleh satu mata uang pemersatu yang sama: Rupiah.</p>
+                        <h4>🤝 C. Rupiah Sebagai Pemersatu Bangsa</h4>
+                        <p>Meskipun Indonesia memiliki banyak suku, bahasa, dan budaya, seluruh masyarakat menggunakan satu mata uang yang sama, yaitu rupiah. Rupiah menjadi alat pemersatu bangsa.</p>
                         
-                        <h4>🎨 Gambar dan Makna Seni Budaya Nusantara</h4>
-                        <p>Setiap cetakan lembar Rupiah dihiasi karya seni tinggi berupa gambar pahlawan nasional, tarian adat, warisan tenun, serta keindahan lanskap alam Nusantara. Ini adalah galeri berjalan kekayaan budaya kita!</p>
+                        <h5>🎨 Gambar dan Makna pada Rupiah</h5>
+                        <p>Di setiap lembar uang rupiah terdapat gambar pahlawan nasional, tarian daerah, alam Indonesia, dan kebudayaan Nusantara yang menunjukkan kekayaan budaya kita.</p>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="accordion-item">
-            <button class="accordion-header">💡 4. PAHAM RUPIAH</button>
+            <button class="accordion-header">
+                <div class="header-main-content">
+                    <div class="header-icon">💡</div>
+                    <div class="header-text-block">
+                        <h3>4. Paham Rupiah</h3>
+                        <p>Cerdas mengelola uang lewat transaksi bijak, belanja, dan hemat.</p>
+                    </div>
+                </div>
+                <div class="arrow-icon">▼</div>
+            </button>
             <div class="accordion-content">
                 <div class="materi-body">
-                    <p style="margin-top: 15px;"><strong>Paham Rupiah</strong> berarti kita cerdas dan bijak dalam mengelola, menggunakan, serta memahami peran sirkulasi uang rupiah dalam kehidupan ekonomi sehari-hari.</p>
+                    <p style="margin-top: 15px;"><strong>Paham Rupiah</strong> berarti memahami cara menggunakan uang dengan bijak dan mengetahui peran rupiah dalam kehidupan sehari-hari.</p>
 
                     <div class="sub-materi">
-                        <h3>💳 A. Paham Bertransaksi</h3>
-                        <p>Uang berfungsi sebagai alat pembayaran, alat tukar, dan penyimpan nilai. Di era modern ini, transaksi rupiah bisa dilakukan melalui dua cara:</p>
+                        <h4>💳 A. Paham Bertransaksi</h4>
+                        <p>Uang berfungsi sebagai alat pembayaran, alat tukar, dan penyimpan nilai. Transaksi saat ini bisa dilakukan secara:</p>
                         <ul>
-                            <li>💵 <strong>Tunai:</strong> Menggunakan uang fisik kertas dan logam secara langsung.</li>
-                            <li>📱 <strong>Non-Tunai:</strong> Menggunakan metode digital seperti QRIS, Kartu Debit/Kredit, dan aplikasi Mobile Banking.</li>
+                            <li>💵 <strong>Tunai:</strong> Menggunakan uang fisik.</li>
+                            <li>📱 <strong>Non-Tunai:</strong> Menggunakan QRIS, kartu, atau mobile banking. (Tetap berhati-hati menjaga keamanan data pribadi!)</li>
                         </ul>
                     </div>
 
                     <div class="sub-materi">
-                        <h3>🛍️ B. Paham Berbelanja</h3>
-                        <p>Belanja yang bijak diartikan sebagai kemampuan mengutamakan <strong>kebutuhan (harus ada)</strong> di atas <strong>keinginan (bisa ditunda)</strong>.</p>
+                        <h4>🛍️ B. Paham Berbelanja</h4>
+                        <p>Belanja harus sesuai dengan kebutuhan, bukan sekadar menuruti keinginan semata.</p>
                         
                         <table>
                             <thead>
                                 <tr>
-                                    <th>📋 Kebutuhan (Utama)</th>
-                                    <th>✨ Keinginan (Tambahan)</th>
-                                }
+                                    <th>📋 Kebutuhan (Harus Ada)</th>
+                                    <th>✨ Keinginan (Bisa Ditunda)</th>
+                                </tr>
                             </thead>
                             <tbody>
-                                <tr><td>📚 Buku & alat sekolah</td><td>🧸 Mainan / gadget baru</td></tr>
-                                <tr><td>🍲 Makanan & gizi harian</td><td>🍦 Jajan tren berlebihan</td></tr>
-                                <tr><td>👔 Pakaian / seragam utama</td><td>👟 Koleksi sepatu bermerek</td></tr>
+                                <tr><td>📚 Buku sekolah</td><td>🧸 Mainan baru</td></tr>
+                                <tr><td>🍲 Makanan pokok</td><td>🍦 Jajan berlebihan</td></tr>
+                                <li><td>👔 Seragam sekolah</td><td>👟 Barang tren baru</td></tr>
                             </tbody>
                         </table>
 
-                        <h4>💡 Tips Belanja Bijak:</h4>
+                        <h5>💡 Tips Belanja Bijak:</h5>
                         <ul>
-                            <li>📝 Selalu catat daftar belanjaan dari rumah.</li>
-                            <li>⚖️ Utamakan membeli produk buatan lokal (UMKM Indonesia).</li>
+                            <li>Make daftar belanjaan terlebih dahulu.</li>
+                            <li>Membandingkan harga, tidak boros, dan utamakan kebutuhan utama.</li>
                         </ul>
                     </div>
 
                     <div class="sub-materi">
-                        <h3>🐷 C. Paham Berhemat</h3>
-                        <p>Hemat bukan pelit, melainkan bentuk kecerdasan finansial untuk masa depan.</p>
-                        <ul>
-                            <li>💰 Biasakan menyisihkan uang untuk menabung di awal, bukan sisa belanja.</li>
-                            <li>🍱 Membawa bekal makanan sendiri yang lebih higienis ke sekolah atau kantor.</li>
-                        </ul>
+                        <h4>🐷 C. Paham Berhemat</h4>
+                        <p>Hemat bukan berarti pelit, melainkan menggunakan uang secara cerdas. Contohnya: membawa bekal, menabung rutin, menghindari barang tidak penting, dan merawat barang yang sudah dimiliki.</p>
                     </div>
                 </div>
             </div>
@@ -271,17 +321,17 @@
 
         <div id="video" class="placeholder-section">
             <h3>🎬 Halaman Video Pembelajaran</h3>
-            <p>(Seksi ini ditutup sementara, akan kita kerjakan di langkah berikutnya)</p>
+            <p>(Seksi ditutup, akan kita buka di langkah selanjutnya)</p>
         </div>
 
         <div id="jelajah3d" class="placeholder-section">
             <h3>🌐 Halaman Jelajah Rupiah 3D / AR</h3>
-            <p>(Seksi ini ditutup sementara, akan kita kerjakan di langkah berikutnya)</p>
+            <p>(Seksi ditutup, akan kita buka di langkah selanjutnya)</p>
         </div>
 
         <div id="game" class="placeholder-section">
             <h3>🎮 Halaman Game Edukasi</h3>
-            <p>(Seksi ini ditutup sementara, akan kita kerjakan di langkah berikutnya)</p>
+            <p>(Seksi ditutup, akan kita buka di langkah selanjutnya)</p>
         </div>
 
     </div>
