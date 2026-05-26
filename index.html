@@ -12,18 +12,17 @@
         /* ================= BANNER BIRU PUTIH MINIMALIS ================= */
         header { 
             background: linear-gradient(135deg, #f0f9ff, #ffffff); 
-            padding: 50px 20px; 
+            padding: 40px 20px; 
             text-align: center;
             box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             border-bottom: 1px solid #e2e8f0;
             display: flex;
             flex-direction: column;
             align-items: center;
-            gap: 15px;
+            gap: 12px;
         }
-        .banner-flex { display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; }
-        .banner-img-top { width: 100%; max-width: 320px; height: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.05); }
-        .logo-maskot { width: 90px; height: 90px; object-fit: cover; border-radius: 50%; background: white; padding: 4px; border: 2px solid #bae6fd; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        /* Menampilkan Maskot Utama di Banner */
+        .logo-maskot { width: 110px; height: 110px; object-fit: cover; border-radius: 50%; background: white; padding: 5px; border: 2px solid #bae6fd; box-shadow: 0 4px 12px rgba(0,0,0,0.06); }
         
         header h1 { font-size: 2.2rem; font-weight: 800; color: #0369a1; letter-spacing: -0.5px; }
         header p { font-size: 1.1rem; color: #0c4a6e; font-weight: 500; opacity: 0.8; }
@@ -35,25 +34,20 @@
         .accordion-item { background: white; border-radius: 14px; margin-bottom: 20px; box-shadow: 0 4px 10px rgba(0,0,0,0.02); border: 1px solid #e2e8f0; overflow: hidden; transition: transform 0.2s, box-shadow 0.2s; }
         .accordion-item:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.04); }
         
-        /* Tombol Header Pembungkus Ringkasan */
         .accordion-header { background: white; width: 100%; padding: 22px; border: none; text-align: left; cursor: pointer; display: flex; align-items: center; justify-content: space-between; gap: 15px; }
         
-        /* Bagian Kiri: Ikon + Teks Ringkas */
         .header-main-content { display: flex; align-items: center; gap: 18px; flex: 1; }
         .header-icon { font-size: 2.2rem; background: #f0f9ff; width: 55px; height: 55px; display: flex; align-items: center; justify-content: center; border-radius: 12px; color: #0284c7; }
         .header-text-block { display: flex; flex-direction: column; gap: 2px; }
         .header-text-block h3 { font-size: 1.25rem; font-weight: 700; color: #0f172a; }
         .header-text-block p { font-size: 0.9rem; color: #64748b; font-weight: 400; }
         
-        /* Simbol Panah */
         .arrow-icon { font-size: 0.8rem; color: #94a3b8; transition: transform 0.3s; padding-right: 5px; }
         .accordion-header.active .arrow-icon { transform: rotate(-180deg); color: #0284c7; }
 
-        /* Isi Materi Tersembunyi */
         .accordion-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background-color: #ffffff; }
         .materi-body { padding: 5px 25px 30px 25px; border-top: 1px solid #f1f5f9; color: #334155; font-size: 1rem; }
         
-        /* Desain Sub-Bab Di Dalam Materi */
         .sub-materi { background-color: #f8fafc; border-left: 4px solid #38bdf8; padding: 20px; margin: 20px 0; border-radius: 0 10px 10px 0; }
         .sub-materi h4 { color: #1e293b; margin-bottom: 8px; font-size: 1.15rem; font-weight: 700; }
 
@@ -61,7 +55,6 @@
         li { margin-bottom: 6px; }
         h5 { color: #0284c7; margin: 15px 0 6px 0; font-size: 1.05rem; font-weight: 600; }
 
-        /* Kotak Notifikasi / Highlight Ciri Khas */
         .box-highlight { background-color: #fffbeb; border-left: 4px solid #f59e0b; padding: 15px; border-radius: 6px; margin: 15px 0; color: #78350f; }
         .box-highlight-green { background-color: #f0fdf4; border-left: 4px solid #22c55e; padding: 15px; border-radius: 6px; margin: 15px 0; color: #14532d; }
         .box-highlight-red { background-color: #fef2f2; border-left: 4px solid #ef4444; padding: 15px; border-radius: 6px; margin: 15px 0; color: #7f1d1d; }
@@ -72,10 +65,9 @@
         th { background-color: #f1f5f9; color: #334155; font-weight: 600; }
 
         /* Pengaturan Gambar Materi */
-        .materi-img { width: 100%; max-width: 450px; border-radius: 8px; display: block; margin: 20px auto; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+        .materi-img { width: 100%; max-width: 500px; border-radius: 8px; display: block; margin: 20px auto; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; }
         .img-caption { text-align: center; font-size: 0.85rem; color: #64748b; margin-top: -12px; margin-bottom: 20px; font-style: italic; }
 
-        /* Pembungkus Seksi Selanjutnya */
         .placeholder-section { background: #f1f5f9; border: 2px dashed #cbd5e1; text-align: center; padding: 25px; border-radius: 14px; margin-bottom: 20px; color: #64748b; font-size: 0.95rem; }
         footer { text-align: center; padding: 35px; color: #94a3b8; font-size: 0.9rem; margin-top: 60px; border-top: 1px solid #e2e8f0; }
     </style>
@@ -83,10 +75,7 @@
 <body>
 
     <header>
-        <div class="banner-flex">
-            <img src="rupiah.png" alt="Rupiah Indonesia" class="banner-img-top" onerror="this.style.display='none'">
-            <img src="maskot.jpeg" alt="Maskot CBP" class="logo-maskot" onerror="this.style.display='none'">
-        </div>
+        <img src="maskot.jpeg" alt="Maskot CBP" class="logo-maskot" onerror="this.style.display='none'">
         <h1>Cinta, Bangga, Paham Rupiah</h1>
         <p>Media Edukasi Interaktif Mengenal Mata Uang Negara Kita</p>
     </header>
@@ -110,12 +99,12 @@
                 <div class="materi-body">
                     <p style="margin-top: 15px;"><strong>Rupiah</strong> adalah mata uang resmi Indonesia yang hadir dalam berbagai pecahan seperti Rp1.000, Rp50.000, hingga Rp100.000. Lebih dari sekadar alat pembayaran, setiap lembar Rupiah merupakan simbol perjuangan, kedaulatan, dan identitas bangsa yang merekam kekayaan tokoh, budaya, flora, serta fauna Nusantara.</p>
                     
-                    <img src="https://images.unsplash.com/photo-1599707367072-cd6ada2bc375?q=80&w=600" alt="Uang Kertas Rupiah" class="materi-img">
-                    <p class="img-caption">Gambar: Ilustrasi Lembaran Uang Kertas Rupiah</p>
+                    <img src="rupiah.png" alt="Uang Rupiah Indonesia" class="materi-img" onerror="this.style.display='none'">
+                    <p class="img-caption">Gambar: Ragam Pecahan Uang Rupiah Republik Indonesia</p>
 
                     <h5>📜 Sekilas Sejarah Rupiah</h5>
                     <ul>
-                        <li><strong>Asal-usul Name:</strong> Berasal dari bahasa Sanskerta <em>"rupya"</em> yang berarti perak atau kekayaan.</li>
+                        <li><strong>Asal-usul Nama:</strong> Berasal dari bahasa Sanskerta <em>"rupya"</em> yang berarti perak atau kekayaan.</li>
                         <li><strong>Hari Lahir:</strong> Resmi lahir pada <strong>30 Oktober 1946</strong> melalui penerbitan Oeang Republik Indonesia (ORI) sebagai wujud kedaulatan ekonomi pascakemerdekaan.</li>
                         <li><strong>Pengelola Tunggal:</strong> Sejak tahun 1953, Bank Indonesia resmi memegang mandat penuh sebagai penerbit dan pengelola tunggal mata uang Rupiah.</li>
                     </ul>
@@ -300,13 +289,13 @@
                             <tbody>
                                 <tr><td>📚 Buku sekolah</td><td>🧸 Mainan baru</td></tr>
                                 <tr><td>🍲 Makanan pokok</td><td>🍦 Jajan berlebihan</td></tr>
-                                <li><td>👔 Seragam sekolah</td><td>👟 Barang tren baru</td></tr>
+                                <tr><td>👔 Seragam sekolah</td><td>👟 Barang tren baru</td></tr>
                             </tbody>
                         </table>
 
                         <h5>💡 Tips Belanja Bijak:</h5>
                         <ul>
-                            <li>Make daftar belanjaan terlebih dahulu.</li>
+                            <li>Membuat daftar belanjaan terlebih dahulu.</li>
                             <li>Membandingkan harga, tidak boros, dan utamakan kebutuhan utama.</li>
                         </ul>
                     </div>
