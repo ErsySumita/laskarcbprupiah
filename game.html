@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Game Detektif Rupiah - Edisi Inklusif Lengkap</title>
+    <title>Game Detektif Rupiah - Edisi Inklusif Final</title>
     <style>
         * { box-sizing: border-box; margin: 0; padding: 0; }
         body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background-color: #f0fdf4; color: #1e293b; line-height: 1.6; padding: 20px; }
@@ -14,7 +14,7 @@
         .score-board { font-size: 1.1rem; font-weight: bold; color: #15803d; margin-bottom: 20px; background: #dcfce7; padding: 8px 15px; border-radius: 30px; display: inline-block; }
         
         /* Layar Input Nama */
-        .input-section { margin: 40px 0; }
+        .input-section { margin: 30px 0; }
         .input-control { width: 100%; max-width: 350px; padding: 12px; font-size: 1.1rem; border: 2px solid #cbd5e1; border-radius: 10px; margin-bottom: 15px; text-align: center; }
         .input-control:focus { border-color: #22c55e; outline: none; box-shadow: 0 0 0 3px rgba(34, 197, 94, 0.2); }
 
@@ -32,14 +32,20 @@
         .feedback-box.success { color: #166534; }
         .feedback-box.danger { color: #991b1b; }
         
-        .btn-nav { background: #0284c7; color: white; border: none; padding: 12px 30px; border-radius: 10px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: background 0.2s; margin: 0 auto; display: block; }
+        /* Tombol Navigasi & Fitur Suara */
+        .btn-nav { background: #0284c7; color: white; border: none; padding: 12px 30px; border-radius: 10px; font-size: 1.1rem; font-weight: bold; cursor: pointer; transition: background 0.2s; margin: 10px auto; display: block; }
         .btn-nav:hover { background: #0369a1; }
         
-        .btn-speak-clue { background: #e0f2fe; color: #0369a1; border: none; padding: 8px 16px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; margin-bottom: 15px; display: inline-flex; align-items: center; gap: 5px; }
+        .control-audio-box { display: flex; justify-content: center; gap: 10px; margin-bottom: 15px; flex-wrap: wrap; }
+        .btn-speak-clue { background: #e0f2fe; color: #0369a1; border: none; padding: 8px 16px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
+        .btn-speak-clue:hover { background: #bae6fd; }
+        .btn-mute-toggle { background: #f1f5f9; color: #475569; border: 1px solid #cbd5e1; padding: 8px 16px; border-radius: 8px; font-size: 0.9rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 5px; }
+        .btn-mute-toggle.active { background: #fee2e2; color: #991b1b; border-color: #fca5a5; }
+
         .btn-back { display: inline-block; margin-top: 20px; color: #64748b; text-decoration: none; font-weight: 500; font-size: 0.95rem; }
         .btn-back:hover { color: #334155; text-decoration: underline; }
 
-        /* Tabel Review Jawaban di Akhir Game */
+        /* Tabel Review Jawaban */
         .review-section { text-align: left; margin-top: 30px; }
         .review-table { width: 100%; border-collapse: collapse; margin-top: 15px; font-size: 0.95rem; background: #ffffff; border-radius: 8px; overflow: hidden; border: 1px solid #e2e8f0; }
         .review-table th, .review-table td { padding: 12px; border-bottom: 1px solid #e2e8f0; }
@@ -55,7 +61,12 @@
         <h1>🕵️‍♂️ Detektif Rupiah</h1>
         
         <div id="layer-start">
-            <p style="color: #64748b; margin-top: 10px;">Sebelum memulai misi penyelidikan, silakan masukkan namamu dulu, Sobat!</p>
+            <p id="start-instructions" style="color: #64748b; margin-top: 10px;">Sebelum memulai misi penyelidikan, silakan masukkan namamu dulu, Sobat!</p>
+            
+            <div style="margin-top: 15px;">
+                <button class="btn-speak-clue" onclick="bacaPanduanAwal()">🔊 Dengarkan Panduan Halaman Ini</button>
+            </div>
+
             <div class="input-section">
                 <input type="text" id="player-name" class="input-control" placeholder="Ketik nama kamu di sini..." aria-label="Ketik nama kamu di sini untuk memulai game" autofocus><br>
                 <button class="btn-nav" onclick="mulaiMisi()">Mulai Penyelidikan 🚀</button>
@@ -65,8 +76,11 @@
         <div id="layer-game" style="display: none;">
             <p id="greeting-text" style="color: #64748b; margin-bottom: 15px; font-weight: 600;"></p>
             <div class="score-board" id="score-display" aria-live="polite">Pertanyaan: 1/10 | Skor: 0</div>
-            <br>
-            <button class="btn-speak-clue" onclick="bacaSoal()">🔊 Dengarkan Soal (Aksesibilitas)</button>
+            
+            <div class="control-audio-box">
+                <button class="btn-speak-clue" onclick="bacaSoal()">🔊 Dengarkan Soal Sekarang</button>
+                <button id="mute-toggle" class="btn-mute-toggle" onclick="toggleMuteMati()">🔊 Pembacaan Otomatis: AKTIF</button>
+            </div>
 
             <div class="clue-box" id="clue-display" role="alert" aria-live="assertive">Memuat pertanyaan...</div>
             <div class="options-grid" id="options-container" role="radiogroup" aria-label="Pilihan Jawaban"></div>
@@ -120,14 +134,34 @@
         let skor = 0;
         let sudahMenjawab = false;
         let rekamanJawaban = [];
+        let isMuted = false;
 
-        // Deteksi Aksesibilitas Tombol Enter pada Input Nama
+        // Deteksi aksesibilitas tombol Enter pada kolom nama awal
         document.getElementById("player-name").addEventListener("keypress", function(event) {
             if (event.key === "Enter") {
                 event.preventDefault();
                 mulaiMisi();
             }
         });
+
+        function bacaPanduanAwal() {
+            const instruksi = document.getElementById("start-instructions").innerText;
+            suarakanTeks(instruksi + ". Masukkan nama kamu pada kotak teks yang tersedia, lalu tekan tombol Enter atau klik tombol Mulai Penyelidikan untuk bermain.");
+        }
+
+        function toggleMuteMati() {
+            isMuted = !isMuted;
+            const btn = document.getElementById("mute-toggle");
+            if(isMuted) {
+                window.speechSynthesis.cancel();
+                btn.innerText = "🔇 Pembacaan Otomatis: MATI";
+                btn.classList.add("active");
+            } else {
+                btn.innerText = "🔊 Pembacaan Otomatis: AKTIF";
+                btn.classList.remove("active");
+                bacaSoal();
+            }
+        }
 
         function mulaiMisi() {
             const inputNama = document.getElementById("player-name").value.trim();
@@ -150,111 +184,8 @@
             document.getElementById("score-display").innerText = `Pertanyaan: ${indexSekarang + 1}/${bankSoal.length} | Skor: ${skor}`;
             document.getElementById("clue-display").innerText = data.clue;
             
-            setTimeout(() => { bacaSoal(); }, 400);
-
-            const container = document.getElementById("options-container");
-            container.innerHTML = "";
-            data.opsi.forEach((opsiTeks, index) => {
-                const button = document.createElement("button");
-                button.className = "btn-option";
-                button.innerText = opsiTeks;
-                button.setAttribute("role", "radio");
-                button.setAttribute("aria-checked", "false");
-                button.addEventListener("click", () => cekJawaban(index, button));
-                container.appendChild(button);
-            });
-        }
-
-        function cekJawaban(indeksDipilih, tombolAktif) {
-            if (sudahMenjawab) return;
-            sudahMenjawab = true;
-
-            const data = bankSoal[indexSekarang];
-            const semuaTombol = document.querySelectorAll(".btn-option");
-            let statusBenar = (indeksDipilih === data.jawaban);
-
-            rekamanJawaban.push({
-                soal: data.clue,
-                jawabanUser: data.opsi[indeksDipilih],
-                isCorrect: statusBenar
-            });
-
-            if (statusBenar) {
-                skor += 10;
-                tombolAktif.classList.add("correct");
-                tombolAktif.setAttribute("aria-checked", "true");
-                document.getElementById("feedback-display").innerText = "🎉 Benar! Analisismu luar biasa!";
-                document.getElementById("feedback-display").className = "feedback-box success";
-                suarakanTeks("Jawaban benar!");
-            } else {
-                tombolAktif.classList.add("wrong");
-                semuaTombol[data.jawaban].classList.add("correct");
-                document.getElementById("feedback-display").innerText = "❌ Kurang tepat, perhatikan fiturnya.";
-                document.getElementById("feedback-display").className = "feedback-box danger";
-                suarakanTeks("Jawaban kurang tepat.");
+            if(!isMuted) {
+                setTimeout(() => { bacaSoal(); }, 400);
             }
 
-            document.getElementById("score-display").innerText = `Pertanyaan: ${indexSekarang + 1}/${bankSoal.length} | Skor: ${skor}`;
-            
-            const btnNext = document.getElementById("btn-next");
-            btnNext.innerText = indexSekarang < bankSoal.length - 1 ? "Pertanyaan Selanjutnya →" : "Selesaikan Misi & Lihat Hasil 🎓";
-            btnNext.style.display = "block";
-            btnNext.focus();
-        }
-
-        function lanjutPertanyaan() {
-            if (indexSekarang < bankSoal.length - 1) {
-                indexSekarang++;
-                muatPertanyaan();
-            } else {
-                window.speechSynthesis.cancel();
-                document.getElementById("layer-game").style.display = "none";
-                document.getElementById("layer-result").style.display = "block";
-                
-                document.getElementById("final-score-display").innerText = `Misi Selesai, ${namaPemain}! Skor: ${skor}/100`;
-                
-                const finalFeedback = document.getElementById("final-feedback");
-                if(skor >= 80) {
-                    finalFeedback.innerText = "🏆 Hebat! Kamu sah menjadi Detektif Rupiah Unggul yang Inklusif!";
-                    finalFeedback.className = "feedback-box success";
-                } else {
-                    finalFeedback.innerText = "👍 Bagus sudah mencoba! Yuk baca ulang materinya agar lebih paham.";
-                    finalFeedback.className = "feedback-box danger";
-                }
-
-                const tbody = document.getElementById("review-tbody");
-                tbody.innerHTML = "";
-                rekamanJawaban.forEach((item, index) => {
-                    const tr = document.createElement("tr");
-                    tr.innerHTML = `
-                        <td><strong>${index + 1}.</strong> ${item.soal}</td>
-                        <td>${item.jawabanUser}</td>
-                        <td><span class="badge-status ${item.isCorrect ? 'benar' : 'salah'}">${item.isCorrect ? 'Benar' : 'Salah'}</span></td>
-                    `;
-                    tbody.appendChild(tr);
-                });
-
-                suarakanTeks(`Misi selesai ${namaPemain}. Skor akhir kamu adalah ${skor} poin. ${finalFeedback.innerText}`);
-            }
-        }
-
-        function suarakanTeks(teks) {
-            window.speechSynthesis.cancel();
-            const ucapan = new SpeechSynthesisUtterance(teks);
-            ucapan.lang = 'id-ID';
-            window.speechSynthesis.speak(ucapan);
-        }
-
-        function bacaSoal() {
-            let data = bankSoal[indexSekarang];
-            let teksPilihan = "";
-            data.opsi.forEach((o, i) => { teksPilihan += ` Pilihan ${i+1}: ${o}.`; });
-            suarakanTeks(data.clue + teksPilihan);
-        }
-
-        function lokasiReset() {
-            location.reload();
-        }
-    </script>
-</body>
-</html>
+            const container = document.getElementById("
