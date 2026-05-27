@@ -120,7 +120,6 @@
     </div>
 
     <script>
-        // DATA 10 SOAL DIKONDISIKAN SESUAI REQUEST BARU
         const quizData = [
             {
                 q: "Secara bahasa, kata 'Rupiah' berasal dari bahasa Sanskerta 'rupya' yang memiliki arti...",
@@ -163,9 +162,9 @@
                 correct: 0
             },
             {
-                q: "Bertransaksi secara nontunai menggunakan QRIS, kartu, atau mobile banking merupakan bagian dari perwujudan sikap...",
-                a: ["Cinta Rupiah", "Bangga Rupiah", "Paham Rupiah", "Hormat Rupiah"],
-                correct: 2
+                q: "Selain sebagai alat pembayaran, gerakan Bangga Rupiah memposisikan uang Rupiah sebagai Lambang Kedaulatan Negara yang sejajar dengan...",
+                a: ["Bendera Merah Putih, Bahasa Indonesia, dan Lagu Kebangsaan", "Lembaga KPK, MK, dan DPR RI", "Situs Budaya Candi Borobudur dan Prambanan", "Paspor Garuda dan Visa Kunjungan Internasional"],
+                correct: 0
             },
             {
                 q: "Manakah contoh pasangan barang yang tepat dikategorikan sebagai 'Kebutuhan (Harus Ada)' dan 'Keinginan (Bisa Ditunda)' menurut tabel Paham Berbelanja?",
@@ -177,7 +176,7 @@
         let currentName = "";
         let currentQuestionIndex = 0;
         let score = 0;
-        let playerAnswers = []; // Untuk menyimpan rekaman jawaban pemain
+        let playerAnswers = [];
 
         function playTone(type) {
             try {
@@ -192,173 +191,4 @@
                     osc.frequency.setValueAtTime(880, ctx.currentTime + 0.1);
                     gain.gain.setValueAtTime(0.2, ctx.currentTime);
                     osc.start();
-                    osc.stop(ctx.currentTime + 0.25);
-                } else {
-                    osc.frequency.setValueAtTime(220, ctx.currentTime);
-                    osc.frequency.setValueAtTime(165, ctx.currentTime + 0.1);
-                    gain.gain.setValueAtTime(0.3, ctx.currentTime);
-                    osc.start();
-                    osc.stop(ctx.currentTime + 0.3);
-                }
-            } catch (e) { console.log("Audio API Error"); }
-        }
-
-        function startGame() {
-            const nameInput = document.getElementById("username").value.trim();
-            if (nameInput === "") {
-                alert("Hei detektif, masukkan namamu terlebih dahulu sebelum memulai misi! 😉");
-                return;
-            }
-            currentName = nameInput;
-            currentQuestionIndex = 0;
-            score = 0;
-            playerAnswers = [];
-            
-            document.getElementById("start-screen").classList.add("hidden");
-            document.getElementById("game-screen").classList.remove("hidden");
-            showQuestion();
-        }
-
-        function showQuestion() {
-            const currentQuestion = quizData[currentQuestionIndex];
-            
-            document.getElementById("question-counter").innerText = `Soal ${currentQuestionIndex + 1} dari ${quizData.length}`;
-            document.getElementById("score-counter").innerText = `Skor: ${score}`;
-            const progressPercent = (currentQuestionIndex / quizData.length) * 100;
-            document.getElementById("progress-fill").style.width = progressPercent + "%";
-            
-            document.getElementById("question-text").innerText = currentQuestion.q;
-            
-            const optionsContainer = document.getElementById("options-container");
-            optionsContainer.innerHTML = "";
-            
-            currentQuestion.a.forEach((optionText, idx) => {
-                const button = document.createElement("button");
-                button.className = "option-btn";
-                button.innerText = optionText;
-                button.onclick = () => checkAnswer(idx, button);
-                optionsContainer.appendChild(button);
-            });
-        }
-
-        function checkAnswer(selectedIndex, clickedButton) {
-            const currentQuestion = quizData[currentQuestionIndex];
-            const isCorrect = (selectedIndex === currentQuestion.correct);
-            const allButtons = document.querySelectorAll(".option-btn");
-            
-            // Kunci semua tombol agar user tidak klik berkali-kali saat jeda warna
-            allButtons.forEach(btn => btn.disabled = true);
-
-            // Simpan riwayat jawaban untuk ringkasan di akhir
-            playerAnswers.push({
-                question: currentQuestion.q,
-                userAnswer: currentQuestion.a[selectedIndex],
-                systemAnswer: currentQuestion.a[currentQuestion.correct],
-                isRight: isCorrect
-            });
-            
-            // Efek visual warna Hijau / Merah sesuai kondisi real-time
-            if (isCorrect) {
-                score += 10;
-                clickedButton.classList.add("correct-visual");
-                playTone('correct');
-            } else {
-                clickedButton.classList.add("wrong-visual");
-                // Tunjukkan juga ke pemain jawaban mana yang seharusnya benar (opsional tapi informatif)
-                allButtons[currentQuestion.correct].classList.add("correct-visual");
-                playTone('wrong');
-            }
-            
-            // Berikan delay 1.2 detik agar user sempat melihat evaluasi warna sebelum ganti soal
-            setTimeout(() => {
-                currentQuestionIndex++;
-                if (currentQuestionIndex < quizData.length) {
-                    showQuestion();
-                } else {
-                    endGame();
-                }
-            }, 1200);
-        }
-
-        function endGame() {
-            document.getElementById("game-screen").classList.add("hidden");
-            document.getElementById("result-screen").classList.remove("hidden");
-            
-            document.getElementById("final-name").innerText = currentName;
-            document.getElementById("final-score").innerText = score;
-            
-            saveScore(currentName, score);
-            displayLeaderboard();
-            displayReview();
-        }
-
-        function saveScore(name, finalScore) {
-            let leaderboard = JSON.parse(localStorage.getItem("detektif_leaderboard")) || [];
-            const existingUserIndex = leaderboard.findIndex(entry => entry.name.toLowerCase() === name.toLowerCase());
-            
-            if (existingUserIndex !== -1) {
-                if (finalScore > leaderboard[existingUserIndex].score) {
-                    leaderboard[existingUserIndex].score = finalScore;
-                }
-            } else {
-                leaderboard.push({ name: name, score: finalScore });
-            }
-            
-            leaderboard.sort((a, b) => b.score - a.score);
-            leaderboard = leaderboard.slice(0, 5);
-            localStorage.setItem("detektif_leaderboard", JSON.stringify(leaderboard));
-        }
-
-        function displayLeaderboard() {
-            const leaderboard = JSON.parse(localStorage.getItem("detektif_leaderboard")) || [];
-            const tbody = document.getElementById("leaderboard-body");
-            tbody.innerHTML = "";
-            
-            if (leaderboard.length === 0) {
-                tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#94a3b8;">Belum ada skor. Jadilah yang pertama!</td></tr>`;
-                return;
-            }
-            
-            leaderboard.forEach((entry, idx) => {
-                const rank = idx + 1;
-                let rankClass = `rank-badge rank-${rank}`;
-                if (rank > 3) rankClass = "rank-badge";
-                
-                const tr = document.createElement("tr");
-                tr.innerHTML = `
-                    <td><span class="${rankClass}">${rank}</span></td>
-                    <td style="font-weight: 600;">${entry.name}</td>
-                    <td style="text-align: right; font-weight: 700; color: #15803d;">${entry.score}</td>
-                `;
-                tbody.appendChild(tr);
-            });
-        }
-
-        // FUNGSI BARU: MENAMPILKAN RINGKASAN JAWABAN PEMAIN VS SISTEM
-        function displayReview() {
-            const reviewContainer = document.getElementById("review-container");
-            reviewContainer.innerHTML = "";
-
-            playerAnswers.forEach((item, index) => {
-                const div = document.createElement("div");
-                div.className = item.isRight ? "review-item pass" : "review-item fail";
-                
-                div.innerHTML = `
-                    <strong>Soal ${index + 1}:</strong> ${item.question}<br>
-                    <span style="color: ${item.isRight ? '#16a34a' : '#dc2626'}; font-weight: 600;">
-                        ${item.isRight ? '✅ Jawaban Anda Benar' : '❌ Jawaban Anda Salah'}: ${item.userAnswer}
-                    </span><br>
-                    ${!item.isRight ? `👉 <span style="color: #16a34a; font-weight: 600;">Jawaban Benar Sistem: ${item.systemAnswer}</span>` : ''}
-                `;
-                reviewContainer.appendChild(div);
-            });
-        }
-
-        function restartGame() {
-            document.getElementById("result-screen").classList.add("hidden");
-            document.getElementById("start-screen").classList.remove("hidden");
-            document.getElementById("username").value = "";
-        }
-    </script>
-</body>
-</html>
+                    osc.stop(
