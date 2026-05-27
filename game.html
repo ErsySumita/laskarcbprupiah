@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Detektif Rupiah - Edukasi CBP</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; background-color: #f8fafc; color: #334155; line-height: 1.6; }
+        
+        header { background: linear-gradient(135deg, #15803d, #166534); color: white; padding: 30px 20px; text-align: center; box-shadow: 0 4px 12px rgba(22, 101, 52, 0.15); }
+        header h1 { font-size: 2rem; font-weight: 800; }
+        header p { font-size: 1rem; color: #bbf7d0; margin-top: 5px; }
+
+        .container { max-width: 700px; margin: 30px auto; padding: 0 20px; }
+        .card { background: white; border-radius: 14px; padding: 30px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; margin-bottom: 25px; }
+        
+        /* Form Nama */
+        .form-group { display: flex; flex-direction: column; gap: 10px; margin-top: 15px; }
+        input[type="text"] { padding: 12px; border: 2px solid #cbd5e1; border-radius: 8px; font-size: 1rem; outline: none; transition: border-color 0.2s; }
+        input[type="text"]:focus { border-color: #22c55e; }
+        
+        /* Komponen Game */
+        .hidden { display: none !important; }
+        .progress-bar { width: 100%; background: #e2e8f0; height: 8px; border-radius: 4px; margin-bottom: 20px; overflow: hidden; }
+        .progress-fill { background: #22c55e; height: 100%; width: 0%; transition: width 0.3s ease; }
+        .question-text { font-size: 1.2rem; font-weight: 700; color: #0f172a; margin-bottom: 20px; }
+        
+        .options-grid { display: flex; flex-direction: column; gap: 12px; }
+        .option-btn { background: #ffffff; border: 2px solid #e2e8f0; padding: 14px; text-align: left; border-radius: 10px; font-size: 1rem; font-weight: 600; cursor: pointer; color: #475569; transition: all 0.2s; width: 100%; }
+        .option-btn:hover { background: #f0fdf4; border-color: #22c55e; color: #166534; transform: translateY(-1px); }
+        
+        /* Tombol Umum */
+        .btn { display: inline-block; background: #22c55e; color: white; border: none; padding: 12px 24px; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; text-align: center; text-decoration: none; transition: background 0.2s; }
+        .btn:hover { background: #16a34a; }
+        .btn-secondary { background: #0284c7; }
+        .btn-secondary:hover { background: #0369a1; }
+        
+        /* Leaderboard Table */
+        table { width: 100%; border-collapse: collapse; margin: 20px 0; }
+        th, td { padding: 12px; text-align: left; border-bottom: 1px solid #e2e8f0; }
+        th { background: #f1f5f9; color: #475569; font-weight: 700; }
+        tr:nth-child(even) { background: #f8fafc; }
+        .rank-badge { display: inline-block; width: 24px; height: 24px; text-align: center; line-height: 24px; border-radius: 50%; font-weight: bold; }
+        .rank-1 { background: #fef08a; color: #854d0e; }
+        .rank-2 { background: #e2e8f0; color: #475569; }
+        .rank-3 { background: #ffedd5; color: #9a3412; }
+
+        .flex-buttons { display: flex; gap: 15px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>🎮 Detektif Rupiah</h1>
+        <p>Uji Pemahamanmu Mengenai Cinta, Bangga, dan Paham Rupiah!</p>
+    </header>
+
+    <div class="container">
+        
+        <div id="start-screen" class="card">
+            <h2 style="color: #0f172a; margin-bottom: 10px;">Selamat Datang Agen!</h2>
+            <p>Selesaikan 10 misi teka-teki seputar mata uang Indonesia untuk mencatatkan namamu di papan peringkat teratas.</p>
+            <div class="form-group">
+                <label for="username" style="font-weight: 600;">Masukkan Nama/Inisial Kamu:</label>
+                <input type="text" id="username" placeholder="Contoh: Budi_Cerdas" maxlength="15">
+                <button class="btn" onclick="startGame()" style="margin-top: 10px;">Mulai Petualangan 🚀</button>
+            </div>
+        </div>
+
+        <div id="game-screen" class="card hidden">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 10px;">
+                <span id="question-counter" style="font-weight: 600; color: #64748b;">Soal 1 dari 10</span>
+                <span id="score-counter" style="font-weight: 700; color: #166534;">Skor: 0</span>
+            </div>
+            <div class="progress-bar">
+                <div id="progress-fill" class="progress-fill"></div>
+            </div>
+            <div id="question-text" class="question-text">Memuat pertanyaan...</div>
+            <div id="options-container" class="options-grid">
+                </div>
+        </div>
+
+        <div id="result-screen" class="card hidden" style="text-align: center;">
+            <span style="font-size: 4rem;">🎉</span>
+            <h2 style="color: #0f172a; margin-bottom: 10px;">Misi Selesai!</h2>
+            <p style="font-size: 1.1rem; margin-bottom: 20px;">Hebat <strong id="final-name"></strong>, kamu berhasil mengumpulkan skor sebesar:</p>
+            <div style="font-size: 3rem; font-weight: 800; color: #22c55e; margin-bottom: 30px;" id="final-score">0</div>
+            
+            <hr style="border: none; border-top: 1px solid #e2e8f0; margin-bottom: 25px;">
+            
+            <h3 style="color: #0f172a; text-align: left; margin-bottom: 10px;">🏆 Papan Peringkat Teratas (Leaderboard)</h3>
+            <table>
+                <thead>
+                    <tr>
+                        <th style="width: 15%;">Posisi</th>
+                        <th>Nama Detektif</th>
+                        <th style="text-align: right;">Skor Teliti</th>
+                    </tr>
+                </thead>
+                <tbody id="leaderboard-body">
+                    </tbody>
+            </table>
+
+            <div class="flex-buttons">
+                <button class="btn" onclick="restartGame()" style="flex: 1;">Main Lagi 🔄</button>
+                <a href="index.html" class="btn btn-secondary" style="flex: 1;">Kembali Ke Materi 📚</a>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // DATA 10 SOAL MATERI ASLI CBP RUPIAH
+        const quizData = [
+            {
+                q: "Apa asal-usul nama mata uang kita, 'Rupiah'?",
+                a: ["Bahasa Sanskerta 'rupya' yang berarti perak", "Bahasa Arab 'rubiya' yang berarti berkah", "Bahasa Belanda 'robyen' yang berarti koin", "Singkatan dari Republik Indonesia Rupiah"],
+                correct: 0
+            },
+            {
+                q: "Kapan Oeang Republik Indonesia (ORI) resmi diterbitkan sebagai mata uang berdaulat pertama?",
+                a: ["17 Agustus 1945", "30 Oktober 1946", "17 Agustus 1950", "1 Januari 1953"],
+                correct: 1
+            },
+            {
+                q: "Lembaga negara manakah yang memegang mandat penuh dan tunggal dalam mengelola uang Rupiah sejak tahun 1953?",
+                a: ["Kementerian Keuangan", "Otoritas Jasa Keuangan (OJK)", "Bank Indonesia", "Perum Peruri"],
+                correct: 2
+            },
+            {
+                q: "Metode mengenali uang kertas asli dengan cara meraba permukaan kasar pada angka nominal disebut teknik cetak...",
+                a: ["Watermark", "Intaglio", "Rectoverso", "Ultraviolet"],
+                correct: 1
+            },
+            {
+                q: "Saat menerawang uang Rupiah asli ke arah cahaya, kita akan melihat gambar saling isi membentuk logo Bank Indonesia secara utuh yang dikenal sebagai...",
+                a: ["Watermark", "Intaglio", "Rectoverso", "Electrotype"],
+                correct: 2
+            },
+            {
+                q: "Tindakan manakah yang melanggar gerakan '5 Jangan (5J)' dalam merawat uang Rupiah?",
+                a: ["Menyimpan uang lurus di dalam dompet", "Menghitung uang dengan teliti", "Menyetrika uang yang agak lembap", "Merapikan tumpukan uang dengan cara distapler"],
+                correct: 3
+            },
+            {
+                q: "Berdasarkan UU Nomor 7 Tahun 2011, Rupiah bangga diposisikan sejajar sebagai Simbol Kedaulatan Negara bersama dengan...",
+                a: ["Lagu kebangsaan, bahasa, dan bendera Merah Putih", "Presiden, Monas, dan peta wilayah Indonesia", "Paspor negara, Garuda Pancasila, dan UUD 1945", "Batik, Candi Borobudur, dan TNI"],
+                correct: 0
+            },
+            {
+                q: "Tokoh pahlawan nasional siapakah yang fotonya diabadikan pada lembaran uang kertas Rupiah nominal Rp50.000 emisi terbaru?",
+                a: ["Ir. Soekarno", "Frans Kaisiepo", "Dr. G.S.S.J. Ratulangi", "Ir. H. Djuanda Kartawidjaja"],
+                correct: 3
+            },
+            {
+                q: "Melakukan transaksi pembayaran nontunai menggunakan pemindaian satu kode barcode resmi di warung adalah contoh penggunaan...",
+                a: ["SMS Banking", "QRIS (Quick Response Code Indonesian Standard)", "Kartu Kredit Global", "Kupon Belanja Virtual"],
+                correct: 1
+            },
+            {
+                q: "Manakah contoh sikap yang paling tepat mencerminkan perilaku 'Paham Rupiah' dalam kehidupan ekonomi sehari-hari?",
+                a: ["Membeli semua barang diskon demi gaya hidup", "Menabung rutin dan berbelanja bijak sesuai daftar kebutuhan", "Menyimpan uang tunai dalam jumlah besar di bawah kasur", "Menolak bertransaksi dengan metode nontunai digital"],
+                correct: 1
+            }
+        ];
+
+        let currentName = "";
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        // EFEK SUARA SIMULASI VIA BROWSER AUDIO API
+        function playTone(type) {
+            try {
+                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const osc = ctx.createOscillator();
+                const gain = ctx.createGain();
+                osc.connect(gain);
+                gain.connect(ctx.destination);
+                
+                if (type === 'correct') {
+                    osc.frequency.setValueAtTime(587.33, ctx.currentTime); // D5
+                    osc.frequency.setValueAtTime(880, ctx.currentTime + 0.1); // A5
+                    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.25);
+                } else {
+                    osc.frequency.setValueAtTime(220, ctx.currentTime); // A3
+                    osc.frequency.setValueAtTime(165, ctx.currentTime + 0.1); // E3
+                    gain.gain.setValueAtTime(0.3, ctx.currentTime);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.3);
+                }
+            } catch (e) { console.log("Audio not supported or blocked"); }
+        }
+
+        function startGame() {
+            const nameInput = document.getElementById("username").value.trim();
+            if (nameInput === "") {
+                alert("Hei detektif, masukkan namamu dulu sebelum memulai misi! 😉");
+                return;
+            }
+            currentName = nameInput;
+            currentQuestionIndex = 0;
+            score = 0;
+            
+            document.getElementById("start-screen").classList.add("hidden");
+            document.getElementById("game-screen").classList.remove("hidden");
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const currentQuestion = quizData[currentQuestionIndex];
+            
+            // Update counter & progress bar
+            document.getElementById("question-counter").innerText = `Soal ${currentQuestionIndex + 1} dari ${quizData.length}`;
+            document.getElementById("score-counter").innerText = `Skor: ${score}`;
+            const progressPercent = ((currentQuestionIndex) / quizData.length) * 100;
+            document.getElementById("progress-fill").style.width = progressPercent + "%";
+            
+            // Set teks soal
+            document.getElementById("question-text").innerText = currentQuestion.q;
+            
+            // Render pilihan jawaban
+            const optionsContainer = document.getElementById("options-container");
+            optionsContainer.innerHTML = "";
+            
+            currentQuestion.a.forEach((optionText, idx) => {
+                const button = document.createElement("button");
+                button.className = "option-btn";
+                button.innerText = optionText;
+                button.onclick = () => checkAnswer(idx);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedIndex) {
+            const isCorrect = (selectedIndex === quizData[currentQuestionIndex].correct);
+            
+            if (isCorrect) {
+                score += 10;
+                playTone('correct');
+            } else {
+                playTone('wrong');
+            }
+            
+            // Lanjut atau Selesai
+            currentQuestionIndex++;
+            if (currentQuestionIndex < quizData.length) {
+                showQuestion();
+            } else {
+                endGame();
+            }
+        }
+
+        function endGame() {
+            document.getElementById("game-screen").classList.add("hidden");
+            document.getElementById("result-screen").classList.remove("hidden");
+            
+            document.getElementById("final-name").innerText = currentName;
+            document.getElementById("final-score").innerText = score;
+            
+            saveScore(currentName, score);
+            displayLeaderboard();
+        }
+
+        function saveScore(name, finalScore) {
+            let leaderboard = JSON.parse(localStorage.getItem("detektif_leaderboard")) || [];
+            
+            // Cari apakah nama sudah ada sebelumnya
+            const existingUserIndex = leaderboard.findIndex(entry => entry.name.toLowerCase() === name.toLowerCase());
+            
+            if (existingUserIndex !== -1) {
+                // Update jika skor baru lebih tinggi
+                if (finalScore > leaderboard[existingUserIndex].score) {
+                    leaderboard[existingUserIndex].score = finalScore;
+                }
+            } else {
+                // Tambahkan entri baru
+                leaderboard.push({ name: name, score: finalScore });
+            }
+            
+            // Urutkan dari skor tertinggi
+            leaderboard.sort((a, b) => b.score - a.score);
+            
+            // Ambil maksimal 5 besar saja
+            leaderboard = leaderboard.slice(0, 5);
+            
+            localStorage.setItem("detektif_leaderboard", JSON.stringify(leaderboard));
+        }
+
+        function displayLeaderboard() {
+            const leaderboard = JSON.parse(localStorage.getItem("detektif_leaderboard")) || [];
+            const tbody = document.getElementById("leaderboard-body");
+            tbody.innerHTML = "";
+            
+            // Jika kosong, beri tiruan default agar tidak sepi
+            if (leaderboard.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#94a3b8;">Belum ada record skor. Jadi yang pertama!</td></tr>`;
+                return;
+            }
+            
+            leaderboard.forEach((entry, idx) => {
+                const rank = idx + 1;
+                let rankClass = `rank-badge rank-${rank}`;
+                if (rank > 3) rankClass = "rank-badge";
+                
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td><span class="${rankClass}">${rank}</span></td>
+                    <td style="font-weight: 600;">${entry.name}</td>
+                    <td style="text-align: right; font-weight: 700; color: #15803d;">${entry.score}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function restartGame() {
+            document.getElementById("result-screen").classList.add("hidden");
+            document.getElementById("start-screen").classList.remove("hidden");
+            document.getElementById("username").value = "";
+        }
+    </script>
+</body>
+</html>
