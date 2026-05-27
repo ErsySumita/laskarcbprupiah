@@ -111,14 +111,14 @@
                     <button class="btn-audio" onclick="toggleAudio('teks-sejarah', this)">🔊 Dengarkan Materi</button>
                     
                     <div id="teks-sejarah">
-                        <p>Rupiah adalah mata uang resmi Indonesia yang hadir dalam berbagai pecahan seperti Rp1.000, Rp50.000, hingga Rp100.000. Lebih dari sekadar alat pembayaran, setiap lembar Rupiah merupakan simbol perjuangan, kedaulatan, dan identitas bangsa yang merekam kekayaan tokoh, budaya, flora, serta fauna Nusantara.</p>
+                        <p>Rupiah adalah mata uang resmi Indonesia yang hadir dalam berbagai pecahan seperti Rp1.000, Rp50.000, hingga Rp100.000. Lebih dari sekadar alat pembayaran, setiap lembar Rupiah merupakan simbol perjuangan, kedaulalan, dan identitas bangsa yang merekam kekayaan tokoh, budaya, flora, serta fauna Nusantara.</p>
                         
                         <img src="rupiah.png" alt="Foto ragam pecahan uang Rupiah kertas Republik Indonesia, menampilkan gambar pahlawan nasional dan kekayaan budaya" class="materi-img" onerror="this.style.display='none'">
                         <p class="img-caption" aria-hidden="true">Gambar: Ragam Pecahan Uang Rupiah Republik Indonesia</p>
 
                         <h5>Sekilas Sejarah Rupiah</h5>
                         <ul>
-                            <li><strong>Asal-usul Name:</strong> Berasal dari bahasa Sanskerta "rupya" yang berarti perak atau kekayaan.</li>
+                            <li><strong>Asal-usul Nama:</strong> Berasal dari bahasa Sanskerta "rupya" yang berarti perak atau kekayaan.</li>
                             <li><strong>Hari Lahir:</strong> Resmi lahir pada 30 Oktober 1946 melalui penerbitan Oeang Republik Indonesia (ORI) sebagai wujud kedaulatan ekonomi pascakemerdekaan.</li>
                             <li><strong>Pengelola Tunggal:</strong> Sejak tahun 1953, Bank Indonesia resmi memegang mandat penuh sebagai penerbit dan pengelola tunggal mata uang Rupiah.</li>
                         </ul>
@@ -177,7 +177,7 @@
                                 <li>Tulisan resmi NKRI serta tanda tangan Pemerintah dan Bank Indonesia</li>
                             </ul>
                             
-                            <img src="UANG.png" alt="Infografis fitur pengaman rupiah asli, mendetailkan letak cetakan kasar intaglio, benang pengaman, and tanda air pahlawan" class="materi-img" onerror="this.style.display='none'">
+                            <img src="UANG.png" alt="Infografis fitur pengaman rupiah asli, mendetailkan letak cetakan kasar intaglio, benang pengaman, dan tanda air pahlawan" class="materi-img" onerror="this.style.display='none'">
                             <p class="img-caption" aria-hidden="true">Gambar: Ciri Khas Seni dan Atribut Resmi Lembaran Uang Rupiah</p>
                             
                             <div class="box-highlight">
@@ -219,7 +219,7 @@
                     <div class="header-icon" aria-hidden="true">👍</div>
                     <div class="header-text-block">
                         <h3>3. Bangga Rupiah</h3>
-                        <p>Memahami Rupiah sebagai simbol negara, kedaulatan, and pemersatu.</p>
+                        <p>Memahami Rupiah sebagai simbol negara, kedaulatan, dan pemersatu.</p>
                     </div>
                 </div>
                 <div class="arrow-icon" aria-hidden="true">▼</div>
@@ -280,7 +280,7 @@
                         <div class="sub-materi">
                             <h4>C. Paham Berhemat</h4>
                             <p>Berhemat adalah bagian terpenting dari Paham Rupiah. Menabung sejak dini membantu kita mempersiapkan masa depan dan mengendalikan inflasi negara. Dengan menghemat Rupiah, kita ikut memperkuat kestabilan ekonomi nasional.</p>
-                                <h5>Cara mudah berhemat setiap hari:</h5>
+                            <h5>Cara mudah berhemat setiap hari:</h5>
                             <ul>
                                 <li>Menyisihkan uang saku untuk ditabung di celengan atau bank.</li>
                                 <li>Membawa bekal makanan dan air minum dari rumah ke sekolah.</li>
@@ -396,26 +396,12 @@
             });
         });
 
-        // ================= LOGIKA OPTIMASI AUDIO MULTIPLATFORM (ANDROID & iPHONE) =================
+        // 2. Logika Utama Audio (Strategi Fail-Safe Anti Bisu Multiplatform)
         let currentUtterance = null;
-        let availableVoices = [];
-
-        // Fungsi pra-muat suara untuk mengunci paket bahasa Android Chrome agar tidak bisu
-        function loadVoices() {
-            if ('speechSynthesis' in window) {
-                availableVoices = window.speechSynthesis.getVoices();
-            }
-        }
-        
-        // Pemicu muat suara di awal halaman terbuka
-        loadVoices();
-        if ('speechSynthesis' in window && window.speechSynthesis.onvoiceschanged !== undefined) {
-            window.speechSynthesis.onvoiceschanged = loadVoices;
-        }
 
         function toggleAudio(elementId, button) {
             if (!('speechSynthesis' in window)) {
-                alert("Maaf, browser atau perangkat kamu belum mendukung fitur pembaca suara interaktif.");
+                alert("Maaf, browser atau perangkat kamu belum mendukung fitur pembaca suara.");
                 return;
             }
 
@@ -427,7 +413,7 @@
                 return;
             }
 
-            // Hentikan suara lain jika ada yang sedang berjalan sebelum memulai yang baru
+            // Reset total antrean audio lama yang menggantung (Penyebab utama bisu di Android)
             window.speechSynthesis.cancel();
             document.querySelectorAll('.btn-audio').forEach(b => {
                 b.classList.remove('playing');
@@ -437,16 +423,11 @@
             // Ambil teks bersih dari element kontainer materi
             const textToRead = document.getElementById(elementId).innerText;
             
-            // Konfigurasi Web Speech API
+            // Konfigurasi Web Speech API secara clean/minimalis
             currentUtterance = new SpeechSynthesisUtterance(textToRead);
-            currentUtterance.lang = 'id-ID'; // Set bahasa target utama ke Indonesia resmi
-            currentUtterance.rate = 1.0;     // Kecepatan membaca normal
-
-            // Jembatan khusus Android: Cari aset suara mesin Google Bahasa Indonesia di sistem
-            if (availableVoices.length > 0) {
-                const idVoice = availableVoices.find(v => v.lang.includes('id') || v.lang.includes('ID'));
-                if (idVoice) currentUtterance.voice = idVoice;
-            }
+            currentUtterance.lang = 'id-ID'; 
+            currentUtterance.rate = 1.0;     
+            currentUtterance.pitch = 1.0;
 
             // Event saat suara selesai dibacakan secara natural
             currentUtterance.onend = function() {
@@ -454,7 +435,7 @@
                 button.innerText = "🔊 Dengarkan Materi";
             };
 
-            // Event cadangan jika pembacaan terputus atau dihentikan paksa
+            // Event jika pembacaan dibatalkan/dihentikan di tengah jalan
             currentUtterance.oncancel = function() {
                 button.classList.remove('playing');
                 button.innerText = "🔊 Dengarkan Materi";
@@ -464,7 +445,8 @@
             button.classList.add('playing');
             button.innerText = "⏹️ Hentikan Suara";
 
-            // Jalankan suara dengan aman!
+            // Trik Khusus Android: Bangunkan engine TTS Chrome yang tertidur sebelum menembak suara
+            window.speechSynthesis.resume();
             window.speechSynthesis.speak(currentUtterance);
         }
     </script>
