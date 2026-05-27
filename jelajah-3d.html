@@ -60,15 +60,15 @@
 
     <header>
         <a href="index.html" class="btn-back">← Kembali</a>
-        <h1>Jelajah Fitur Rupiah</h1>
+        <h1>Jelajah Rupiah</h1>
         <div style="width: 65px;"></div>
     </header>
 
     <div class="viewer-container">
         <div class="canvas-area" id="interactiveZone">
             <div class="rupiah-card-3d" id="rupiah3D">
-                <div class="card-face card-front" id="frontFace" style="background-image: url('100k-depan.jpg');"></div>
-                <div class="card-face card-back" id="backFace" style="background-image: url('100k-belakang.jpg');"></div>
+                <div class="card-face card-front" id="frontFace" style="background-image: url('100k-belakang.jpg');"></div>
+                <div class="card-face card-back" id="backFace" style="background-image: url('100k-depan.jpg');"></div>
             </div>
             
             <button class="btn-flip" onclick="flipUang()">🔄 Balik Posisi Uang</button>
@@ -115,12 +115,13 @@
         
         let isFlipped = false;
 
+        // Database disesuaikan dengan file 100k yang tertukar di repositori kamu
         const dataUang = {
             '100k': {
                 title: "Pecahan Rp100.000 (Seri Emisi Terbaru)",
                 info: "• BAGIAN DEPAN:\n- Pahlawan: Dr. (H.C.) Ir. Soekarno & Dr. (H.C.) Drs. Mohammad Hatta.\n- Ciri Keamanan: Benang pengaman rajutan yang berubah warna hijau ke biru jika dimiringkan.\n- Cetak Kasar: Terasa timbul pada angka nominal dan gambar pahlawan.\n\n• BAGIAN BELAKANG:\n- Tari Tradisional: Tari Topeng Betawi.\n- Alam: Keindahan Raja Ampat.\n- Flora: Bunga Anggrek Bulan.",
-                front: "100k-depan.jpg",
-                back: "100k-belakang.jpg"
+                front: "100k-belakang.jpg", // Ditukar sengaja agar visual benar
+                back: "100k-depan.jpg"      // Ditukar sengaja agar visual benar
             },
             '50k': {
                 title: "Pecahan Rp50.000 (Seri Emisi Terbaru)",
@@ -207,7 +208,6 @@
             frontFace.style.backgroundImage = `url('${dataUang[type].front}')`;
             backFace.style.backgroundImage = `url('${dataUang[type].back}')`;
             
-            // PENTING: Paksa posisi kembali ke GAMBAR DEPAN setiap ganti pecahan
             isFlipped = false; 
             resetMove();
         }
