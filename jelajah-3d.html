@@ -25,8 +25,8 @@
         /* Efek Kilau Lapisan Hologram */
         .card-face::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.15) 45%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.15) 55%, transparent 70%); background-size: 200% 200%; background-position: var(--x, 0%) var(--y, 0%); pointer-events: none; mix-blend-mode: color-dodge; z-index: 5; }
 
-        .card-front { background-size: cover; background-position: center; }
-        .card-back { background-size: cover; background-position: center; transform: rotateY(180deg); }
+        .card-front { background-size: contain; background-repeat: no-repeat; background-position: center; background-color: transparent; }
+        .card-back { background-size: contain; background-repeat: no-repeat; background-position: center; background-color: transparent; transform: rotateY(180deg); }
 
         /* ================= PANEL CONTROL & INFORMASI ================= */
         .info-side { flex: 1; min-width: 300px; background: #1e293b; border-radius: 16px; padding: 25px; border: 1px solid #334155; display: flex; flex-direction: column; justify-content: space-between; }
@@ -58,8 +58,8 @@
     <div class="viewer-container">
         <div class="canvas-area">
             <div class="rupiah-card-3d" id="rupiah3D">
-                <div class="card-face card-front" id="frontFace" style="background-image: url('https://w7.pngwing.com/pngs/303/755/png-transparent-indonesian-rupiah-banknote-100-000-rupiah-money-indonesia-cash-thumbnail.png');"></div>
-                <div class="card-face card-back" id="backFace" style="background-image: url('https://w7.pngwing.com/pngs/669/592/png-transparent-100-000-indonesian-rupiah-banknote-indonesian-rupiah-bank-indonesia-banknote-money-cash-indonesia-saving-handling-thumbnail.png');"></div>
+                <div class="card-face card-front" id="frontFace" style="background-image: url('100k-depan.jpg');"></div>
+                <div class="card-face card-back" id="backFace" style="background-image: url('100k-belakang.jpg');"></div>
             </div>
             <div class="hint">Gerakkan kursor/jarimu di atas uang untuk melihat efek kilau 3D</div>
         </div>
@@ -70,7 +70,7 @@
                 <div class="feature-box" id="infoText">
                     • BAGIAN DEPAN:
                     - Pahlawan: Dr. (H.C.) Ir. Soekarno & Dr. (H.C.) Drs. Mohammad Hatta.
-                    - Ciri Keamanan: Benang pengaman rajutan (Color Shifting Ink) yang berubah warna hijau ke biru jika dimiringkan.
+                    - Ciri Keamanan: Benang pengaman rajutan yang berubah warna hijau ke biru jika dimiringkan.
                     - Cetak Kasar: Terasa timbul pada angka nominal dan gambar pahlawan.
 
                     • BAGIAN BELAKANG:
@@ -105,49 +105,49 @@
         
         let isFlipped = false;
 
-        // Database Lengkap Informasi Komponen Rupiah dari 1rb - 100rb
+        // Database Gambar Menggunakan File Koleksi Pribadi di GitHub (.jpg)
         const dataUang = {
             '100k': {
                 title: "Pecahan Rp100.000 (Seri Emisi Terbaru)",
-                info: "• BAGIAN DEPAN:\n- Pahlawan: Dr. (H.C.) Ir. Soekarno & Dr. (H.C.) Drs. Mohammad Hatta.\n- Ciri Keamanan: Benang pengaman rajutan (Color Shifting Ink) yang berubah warna hijau ke biru jika dimiringkan.\n- Cetak Kasar: Terasa timbul pada angka nominal dan gambar pahlawan.\n\n• BAGIAN BELAKANG:\n- Tari Tradisional: Tari Topeng Betawi.\n- Alam: Keindahan Raja Ampat.\n- Flora: Bunga Anggrek Bulan.",
-                front: "https://w7.pngwing.com/pngs/303/755/png-transparent-indonesian-rupiah-banknote-100-000-rupiah-money-indonesia-cash-thumbnail.png",
-                back: "https://w7.pngwing.com/pngs/669/592/png-transparent-100-000-indonesian-rupiah-banknote-indonesian-rupiah-bank-indonesia-banknote-money-cash-indonesia-saving-handling-thumbnail.png"
+                info: "• BAGIAN DEPAN:\n- Pahlawan: Dr. (H.C.) Ir. Soekarno & Dr. (H.C.) Drs. Mohammad Hatta.\n- Ciri Keamanan: Benang pengaman rajutan yang berubah warna hijau ke biru jika dimiringkan.\n- Cetak Kasar: Terasa timbul pada angka nominal dan gambar pahlawan.\n\n• BAGIAN BELAKANG:\n- Tari Tradisional: Tari Topeng Betawi.\n- Alam: Keindahan Raja Ampat.\n- Flora: Bunga Anggrek Bulan.",
+                front: "100k-depan.jpg",
+                back: "100k-belakang.jpg"
             },
             '50k': {
                 title: "Pecahan Rp50.000 (Seri Emisi Terbaru)",
-                info: "• BAGIAN DEPAN:\n- Pahlawan: Ir. H. Djuanda Kartawidjaja.\n- Ciri Keamanan: Benang pengaman vertikal dan terdapat lambang BI tersembunyi yang terlihat dari sudut pandang rendah.\n- Tanda Air (Watermark): Gambar pahlawan nasional I Gusti Ngurah Rai saat diterawang.\n\n• BAGIAN BELAKANG:\n- Tari Tradisional: Tari Legong (Bali).\n- Alam: Taman Nasional Komodo.\n- Flora: Bunga Jepun Bali.",
-                front: "https://w7.pngwing.com/pngs/141/913/png-transparent-50-000-indonesian-rupiah-banknote-indonesian-rupiah-bank-indonesia-indonesia-cash-handling-saving-thumbnail.png",
-                back: "https://w7.pngwing.com/pngs/583/576/png-transparent-50-000-indonesian-rupiah-banknote-indonesian-rupiah-bank-indonesia-banknote-indonesia-saving-handling-thumbnail.png"
+                info: "• BAGIAN DEPAN:\n- Pahlawan: Ir. H. Djuanda Kartawidjaja.\n- Ciri Keamanan: Benang pengaman vertikal dan terdapat lambang BI tersembunyi yang terlihat dari sudut rendah.\n- Tanda Air (Watermark): Gambar pahlawan nasional I Gusti Ngurah Rai saat diterawang.\n\n• BAGIAN BELAKANG:\n- Tari Tradisional: Tari Legong (Bali).\n- Alam: Taman Nasional Komodo.\n- Flora: Bunga Jepun Bali.",
+                front: "50k-depan.jpg",
+                back: "50k-belakang.jpg"
             },
             '20k': {
                 title: "Pecahan Rp20.000 (Seri Emisi Terbaru)",
                 info: "• BAGIAN DEPAN:\n- Pahlawan: Dr. G.S.S.J. Ratulangi.\n- Kode Tunanetra: Sepasang garis timbul di pinggir kertas untuk membantu mengenali pecahan lewat rabaan.\n- Gambar Saling Isi (Rectoverso): Logo BI yang terlihat utuh saat ditaruh di depan cahaya.\n\n• BAGIAN BELAKANG:\n- Tari Tradisional: Tari Gong (Kalimantan).\n- Alam: Derawan yang indah.\n- Flora: Bunga Kantong Semar.",
-                front: "https://w7.pngwing.com/pngs/891/663/png-transparent-20-000-indonesian-rupiah-banknote-indonesian-rupiah-bank-indonesia-money-cash-indonesia-saving-handling-thumbnail.png",
-                back: "https://w7.pngwing.com/pngs/203/116/png-transparent-20-000-indonesian-rupiah-banknote-indonesian-rupiah-money-cash-indonesia-saving-handling-thumbnail.png"
+                front: "20k-depan.jpg",
+                back: "20k-belakang.jpg"
             },
             '10k': {
                 title: "Pecahan Rp10.000 (Seri Emisi Terbaru)",
                 info: "• BAGIAN DEPAN:\n- Pahlawan: Frans Kaisiepo.\n- Ornamen Khas: Motif khas Papua yang akan menyala terang di bawah paparan sinar ultraviolet (UV).\n- Warna Dominan: Ungu anggun.\n\n• BAGIAN BELAKANG:\n- Tari Tradisional: Tari Pakarena (Sulawesi).\n- Alam: Taman Nasional Wakatobi.\n- Flora: Bunga Cempaka Hutan Kasar.",
-                front: "https://w7.pngwing.com/pngs/846/778/png-transparent-10-000-indonesian-rupiah-banknote-indonesian-rupiah-bank-indonesia-money-cash-indonesia-saving-handling-thumbnail.png",
-                back: "https://e7.pngegg.com/pngimages/362/34/png-clipart-10-000-indonesian-rupiah-banknote-indonesian-rupiah-banknote-bank-indonesia-money-cash-indonesia-saving-thumbnail.png"
+                front: "10k-depan.jpg",
+                back: "10k-belakang.jpg"
             },
             '5k': {
                 title: "Pecahan Rp5.000 (Seri Emisi Terbaru)",
                 info: "• BAGIAN DEPAN:\n- Pahlawan: Dr. K.H. Idham Chalid.\n- Tekstur Kertas: Terbuat dari serat kapas pilihan yang awet dan memiliki ketahanan tinggi dari lipatan.\n\n• BAGIAN BELAKANG:\n- Tari Tradisional: Tari Gambyong (Jawa).\n- Alam: Gunung Bromo yang megah.\n- Flora: Bunga Sedap Malam.",
-                front: "https://e7.pngegg.com/pngimages/270/229/png-clipart-5-000-indonesian-rupiah-banknote-5-000-indonesian-rupiah-banknote-indonesian-rupiah-bank-indonesia-banknote-money-cash-indonesia-saving-thumbnail.png",
-                back: "https://w7.pngwing.com/pngs/86/186/png-transparent-5-000-indonesian-rupiah-banknote-indonesian-rupiah-bank-indonesia-banknote-money-cash-indonesia-saving-handling-thumbnail.png"
+                front: "5k-depan.jpg",
+                back: "5k-belakang.jpg"
             },
             '2k': {
                 title: "Pecahan Rp2.000 (Seri Emisi Terbaru)",
-                info: "• BAGIAN DEPAN:\n- Pahlawan: M.H. Thamrin.\n- Desain: Menggunakan teknologi cetak microtext halus untuk mencegah pemalsuan scan mesin fotokopi umum.\n\n• BAGIAN BELAKANG:\n- Tari Tradisional: Tari Piring (Sumatera Barat).\n- Alam: Ngarai Sianok yang栘xotis.\n- Flora: Bunga Jeumpa.",
-                front: "https://w7.pngwing.com/pngs/887/740/png-transparent-2-000-indonesian-rupiah-banknote-2-000-indonesian-rupiah-banknote-indonesian-rupiah-banknote-money-cash-indonesia-saving-thumbnail.png",
-                back: "https://w7.pngwing.com/pngs/143/835/png-transparent-2-000-indonesian-rupiah-banknote-indonesian-rupiah-money-cash-indonesia-saving-handling-thumbnail.png"
+                info: "• BAGIAN DEPAN:\n- Pahlawan: M.H. Thamrin.\n- Desain: Menggunakan teknologi cetak microtext halus untuk mencegah pemalsuan scan mesin fotokopi umum.\n\n• BAGIAN BELAKANG:\n- Tari Tradisional: Tari Piring (Sumatera Barat).\n- Alam: Ngarai Sianok yang eksotis.\n- Flora: Bunga Jeumpa.",
+                front: "2k-depan.jpg",
+                back: "2k-belakang.jpg"
             },
             '1k': {
                 title: "Pecahan Rp1.000 (Seri Emisi Terbaru)",
                 info: "• BAGIAN DEPAN:\n- Pahlawan: Tjut Meutia.\n- Ukuran Fisik: Merupakan pecahan dengan ukuran kertas terkecil dalam seri emisi ini (mempermudah pembeda tunanetra).\n\n• BAGIAN BELAKANG:\n- Tari Tradisional: Tari Tifa (Papua/Maluku).\n- Alam: Banda Neira yang bersejarah.\n- Flora: Bunga Anggrek Larat.",
-                front: "https://w7.pngwing.com/pngs/141/476/png-transparent-1-000-indonesian-rupiah-banknote-1-000-indonesian-rupiah-banknote-indonesian-rupiah-banknote-money-cash-indonesia-saving-thumbnail.png",
-                back: "https://w7.pngwing.com/pngs/688/144/png-transparent-1-000-indonesian-rupiah-banknote-indonesian-rupiah-money-cash-indonesia-saving-handling-thumbnail.png"
+                front: "1k-depan.jpg",
+                back: "1k-belakang.jpg"
             }
         };
 
