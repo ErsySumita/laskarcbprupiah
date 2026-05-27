@@ -12,39 +12,50 @@
         .btn-back { color: #38bdf8; text-decoration: none; font-weight: 600; font-size: 0.95rem; }
         header h1 { font-size: 1.3rem; font-weight: 700; color: #fff; }
 
-        .viewer-container { flex: 1; display: flex; flex-wrap: wrap; max-width: 1200px; margin: 30px auto; width: 100%; padding: 0 20px; gap: 30px; }
+        .viewer-container { flex: 1; display: flex; flex-wrap: wrap; max-width: 1200px; margin: 20px auto; width: 100%; padding: 0 20px; gap: 25px; }
         
-        /* ================= AREA 3D HOLOGRAM INTERAKTIF ================= */
-        .canvas-area { flex: 1.5; min-width: 320px; background: radial-gradient(circle, #1e293b 0%, #0f172a 100%); border-radius: 16px; border: 1px solid #334155; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 450px; position: relative; overflow: hidden; perspective: 1000px; }
+        /* ================= AREA 3D INTERAKTIF (KIRI) ================= */
+        .canvas-area { flex: 1.4; min-width: 320px; background: radial-gradient(circle, #1e293b 0%, #0f172a 100%); border-radius: 16px; border: 1px solid #334155; display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 480px; padding: 20px; position: relative; overflow: hidden; perspective: 1500px; }
         
-        .rupiah-card-3d { width: 85%; max-width: 420px; aspect-ratio: 2.1/1; position: relative; transform-style: preserve-3d; transition: transform 0.1s ease; cursor: grab; }
+        /* Kontainer Kartu Utama */
+        .rupiah-card-3d { width: 90%; max-width: 400px; aspect-ratio: 2/1; position: relative; transform-style: preserve-3d; transition: transform 0.15s ease-out; cursor: grab; touch-action: none; }
         .rupiah-card-3d:active { cursor: grabbing; }
         
-        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 8px; box-shadow: 0 20px 40px rgba(0,0,0,0.5); overflow: hidden; }
+        .card-face { position: absolute; width: 100%; height: 100%; backface-visibility: hidden; border-radius: 12px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7); overflow: hidden; pointer-events: none; }
         
-        /* Efek Kilau Lapisan Hologram */
-        .card-face::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.15) 45%, rgba(255,255,255,0.3) 50%, rgba(255,255,255,0.15) 55%, transparent 70%); background-size: 200% 200%; background-position: var(--x, 0%) var(--y, 0%); pointer-events: none; mix-blend-mode: color-dodge; z-index: 5; }
+        /* Efek Kilau / Glossy Hologram */
+        .card-face::after { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(135deg, transparent 30%, rgba(255,255,255,0.25) 45%, rgba(255,255,255,0.4) 50%, rgba(255,255,255,0.25) 55%, transparent 70%); background-size: 250% 250%; background-position: var(--x, 50%) var(--y, 50%); pointer-events: none; mix-blend-mode: color-dodge; z-index: 5; transition: background-position 0.1s ease-out; }
 
         .card-front { background-size: contain; background-repeat: no-repeat; background-position: center; background-color: transparent; }
         .card-back { background-size: contain; background-repeat: no-repeat; background-position: center; background-color: transparent; transform: rotateY(180deg); }
 
-        /* ================= PANEL CONTROL & INFORMASI ================= */
-        .info-side { flex: 1; min-width: 300px; background: #1e293b; border-radius: 16px; padding: 25px; border: 1px solid #334155; display: flex; flex-direction: column; justify-content: space-between; }
-        .info-side h2 { font-size: 1.4rem; margin-bottom: 15px; color: #38bdf8; }
+        /* Posisi Baru Tombol Hijau Di Bawah Uang */
+        .btn-flip { background: #10b981; color: white; border: none; padding: 14px 28px; border-radius: 8px; font-weight: 700; cursor: pointer; transition: 0.2s; font-size: 1rem; margin-top: 25px; box-shadow: 0 4px 12px rgba(16,185,129,0.3); z-index: 10; display: flex; align-items: center; gap: 8px; }
+        .btn-flip:hover { background: #059669; transform: translateY(-2px); }
+        .btn-flip:active { transform: translateY(0); }
+
+        .hint { margin-top: 15px; font-size: 0.85rem; color: #94a3b8; background: rgba(15,23,42,0.6); padding: 6px 16px; border-radius: 20px; pointer-events: none; text-align: center; }
+
+        /* ================= PANEL INFO (KANAN) ================= */
+        .info-side { flex: 1; min-width: 300px; background: #1e293b; border-radius: 16px; padding: 25px; border: 1px solid #334155; display: flex; flex-direction: column; justify-content: space-between; gap: 20px; }
+        .info-side h2 { font-size: 1.4rem; margin-bottom: 12px; color: #38bdf8; }
         
-        .feature-box { background: #0f172a; padding: 15px; border-radius: 10px; border-left: 4px solid #38bdf8; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.5; color: #cbd5e1; white-space: pre-line; }
+        .feature-box { background: #0f172a; padding: 18px; border-radius: 10px; border-left: 4px solid #38bdf8; font-size: 0.95rem; line-height: 1.6; color: #cbd5e1; white-space: pre-line; min-height: 200px; }
         
         .selector-group { display: flex; flex-direction: column; gap: 10px; }
-        .selector-group label { font-size: 0.85rem; color: #94a3b8; font-weight: 600; text-transform: uppercase; }
-        .btn-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 15px; }
+        .selector-group label { font-size: 0.85rem; color: #94a3b8; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+        .btn-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
         
-        button { background: #334155; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 0.9rem; }
-        button:hover { background: #475569; }
-        button.active { background: #0284c7; box-shadow: 0 0 12px rgba(2,132,199,0.4); }
-        .btn-flip { background: #10b981; width: 100%; font-size: 1rem; margin-top: 10px; }
-        .btn-flip:hover { background: #059669; }
+        button.pecahan-btn { background: #334155; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: 600; cursor: pointer; transition: 0.2s; font-size: 0.9rem; }
+        button.pecahan-btn:hover { background: #475569; }
+        button.pecahan-btn.active { background: #0284c7; box-shadow: 0 0 12px rgba(2,132,199,0.5); }
 
-        .hint { position: absolute; bottom: 15px; font-size: 0.85rem; color: #64748b; background: rgba(15,23,42,0.6); padding: 5px 12px; border-radius: 20px; pointer-events: none; }
+        /* Optimasi Tampilan HP / Layar Kecil */
+        @media (max-width: 768px) {
+            .viewer-container { flex-direction: column; margin: 10px auto; }
+            .canvas-area { min-height: 400px; }
+            .info-side { order: 2; } /* Memastikan panel info berada di bawah setelah area 3D selesai diakses */
+        }
     </style>
 </head>
 <body>
@@ -56,12 +67,14 @@
     </header>
 
     <div class="viewer-container">
-        <div class="canvas-area">
+        <div class="canvas-area" id="interactiveZone">
             <div class="rupiah-card-3d" id="rupiah3D">
                 <div class="card-face card-front" id="frontFace" style="background-image: url('100k-depan.jpg');"></div>
                 <div class="card-face card-back" id="backFace" style="background-image: url('100k-belakang.jpg');"></div>
             </div>
-            <div class="hint">Gerakkan kursor/jarimu di atas uang untuk melihat efek kilau 3D</div>
+            
+            <button class="btn-flip" onclick="flipUang()">🔄 Balik Posisi Uang</button>
+            <div class="hint">Sentuh/Geser kertas uang untuk melihat efek kilau 3D</div>
         </div>
 
         <div class="info-side">
@@ -83,15 +96,14 @@
             <div class="selector-group">
                 <label>Pilih Pecahan Uang:</label>
                 <div class="btn-grid">
-                    <button class="active" onclick="switchUang('100k', this)">100rb</button>
-                    <button onclick="switchUang('50k', this)">50rb</button>
-                    <button onclick="switchUang('20k', this)">20rb</button>
-                    <button onclick="switchUang('10k', this)">10rb</button>
-                    <button onclick="switchUang('5k', this)">5rb</button>
-                    <button onclick="switchUang('2k', this)">2rb</button>
-                    <button onclick="switchUang('1k', this)">1rb</button>
+                    <button class="pecahan-btn active" onclick="switchUang('100k', this)">100rb</button>
+                    <button class="pecahan-btn" onclick="switchUang('50k', this)">50rb</button>
+                    <button class="pecahan-btn" onclick="switchUang('20k', this)">20rb</button>
+                    <button class="pecahan-btn" onclick="switchUang('10k', this)">10rb</button>
+                    <button class="pecahan-btn" onclick="switchUang('5k', this)">5rb</button>
+                    <button class="pecahan-btn" onclick="switchUang('2k', this)">2rb</button>
+                    <button class="pecahan-btn" onclick="switchUang('1k', this)">1rb</button>
                 </div>
-                <button class="btn-flip" onclick="flipUang()">🔄 Balik Posisi Uang</button>
             </div>
         </div>
     </div>
@@ -102,10 +114,10 @@
         const backFace = document.getElementById('backFace');
         const infoText = document.getElementById('infoText');
         const moneyTitle = document.getElementById('moneyTitle');
+        const zone = document.getElementById('interactiveZone');
         
         let isFlipped = false;
 
-        // Database Gambar Menggunakan File Koleksi Pribadi di GitHub (.jpg)
         const dataUang = {
             '100k': {
                 title: "Pecahan Rp100.000 (Seri Emisi Terbaru)",
@@ -151,31 +163,48 @@
             }
         };
 
-        // Kontrol Animasi 3D Mouse Tracking
-        const container = document.querySelector('.canvas-area');
-        container.addEventListener('mousemove', (e) => {
-            const rect = container.getBoundingClientRect();
-            const x = e.clientX - rect.left - (rect.width / 2);
-            const y = e.clientY - rect.top - (rect.height / 2);
+        // Fungsi Inti Kalkulasi Efek Gerak 3D & Kilau Lapisan (Mendukung Mouse & Touchscreen)
+        function handleMove(clientX, clientY) {
+            const rect = zone.getBoundingClientRect();
+            const x = clientX - rect.left - (rect.width / 2);
+            const y = clientY - rect.top - (rect.height / 2);
             
-            const rotateX = -(y / rect.height) * 35;
-            const rotateY = (x / rect.width) * 35;
+            // Efek Rotasi Sudut Kemiringan Kertas
+            const rotateX = -(y / rect.height) * 30;
+            const rotateY = (x / rect.width) * 30;
             
-            const originalX = ((e.clientX - rect.left) / rect.width) * 100;
-            const originalY = ((e.clientY - rect.top) / rect.height) * 100;
+            // Koordinat Titik Pantulan Cahaya Kilau Hologram
+            const glareX = ((clientX - rect.left) / rect.width) * 100;
+            const glareY = ((clientY - rect.top) / rect.height) * 100;
             
-            frontFace.style.setProperty('--x', `${originalX}%`);
-            frontFace.style.setProperty('--y', `${originalY}%`);
-            backFace.style.setProperty('--x', `${originalX}%`);
-            backFace.style.setProperty('--y', `${originalY}%`);
+            frontFace.style.setProperty('--x', `${glareX}%`);
+            frontFace.style.setProperty('--y', `${glareY}%`);
+            backFace.style.setProperty('--x', `${glareX}%`);
+            backFace.style.setProperty('--y', `${glareY}%`);
 
             let baseRotation = isFlipped ? 180 : 0;
             card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY + baseRotation}deg)`;
-        });
+        }
 
-        container.addEventListener('mouseleave', () => {
+        function resetMove() {
             card.style.transform = `rotateX(0deg) rotateY(${isFlipped ? 180 : 0}deg)`;
-        });
+            frontFace.style.setProperty('--x', '50%');
+            frontFace.style.setProperty('--y', '50%');
+            backFace.style.setProperty('--x', '50%');
+            backFace.style.setProperty('--y', '50%');
+        }
+
+        // Event Listener untuk Pengguna Laptop (Mouse)
+        zone.addEventListener('mousemove', (e) => handleMove(e.clientX, e.clientY));
+        zone.addEventListener('mouseleave', resetMove);
+
+        // Event Listener untuk Pengguna Smartphone (Touch Screen Jari)
+        zone.addEventListener('touchmove', (e) => {
+            if (e.touches.length > 0) {
+                handleMove(e.touches[0].clientX, e.touches[0].clientY);
+            }
+        }, { passive: true });
+        zone.addEventListener('touchend', resetMove);
 
         function switchUang(type, element) {
             document.querySelectorAll('.btn-grid button').forEach(b => b.classList.remove('active'));
@@ -185,6 +214,10 @@
             infoText.innerText = dataUang[type].info;
             frontFace.style.backgroundImage = `url('${dataUang[type].front}')`;
             backFace.style.backgroundImage = `url('${dataUang[type].back}')`;
+            
+            // Reset posisi rotasi ke normal saat berganti pecahan
+            isFlipped = false;
+            resetMove();
         }
 
         function flipUang() {
