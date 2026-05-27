@@ -118,7 +118,7 @@
 
                         <h5>Sekilas Sejarah Rupiah</h5>
                         <ul>
-                            <li><strong>Asal-usul Nama:</strong> Berasal dari bahasa Sanskerta "rupya" yang berarti perak atau kekayaan.</li>
+                            <li><strong>Asal-usul Name:</strong> Berasal dari bahasa Sanskerta "rupya" yang berarti perak atau kekayaan.</li>
                             <li><strong>Hari Lahir:</strong> Resmi lahir pada 30 Oktober 1946 melalui penerbitan Oeang Republik Indonesia (ORI) sebagai wujud kedaulatan ekonomi pascakemerdekaan.</li>
                             <li><strong>Pengelola Tunggal:</strong> Sejak tahun 1953, Bank Indonesia resmi memegang mandat penuh sebagai penerbit dan pengelola tunggal mata uang Rupiah.</li>
                         </ul>
@@ -219,7 +219,7 @@
                     <div class="header-icon" aria-hidden="true">👍</div>
                     <div class="header-text-block">
                         <h3>3. Bangga Rupiah</h3>
-                        <p>Memahami Rupiah sebagai simbol negara, kedaulatan, dan pemersatu.</p>
+                        <p>Memahami Rupiah sebagai simbol negara, kedaulatan, and pemersatu.</p>
                     </div>
                 </div>
                 <div class="arrow-icon" aria-hidden="true">▼</div>
@@ -280,7 +280,7 @@
                         <div class="sub-materi">
                             <h4>C. Paham Berhemat</h4>
                             <p>Berhemat adalah bagian terpenting dari Paham Rupiah. Menabung sejak dini membantu kita mempersiapkan masa depan dan mengendalikan inflasi negara. Dengan menghemat Rupiah, kita ikut memperkuat kestabilan ekonomi nasional.</p>
-                            <h5>Cara mudah berhemat setiap hari:</h5>
+                                <h5>Cara mudah berhemat setiap hari:</h5>
                             <ul>
                                 <li>Menyisihkan uang saku untuk ditabung di celengan atau bank.</li>
                                 <li>Membawa bekal makanan dan air minum dari rumah ke sekolah.</li>
@@ -384,8 +384,8 @@
                 
                 if (content.style.maxHeight && content.style.maxHeight !== "0px") {
                     content.style.maxHeight = "0px";
-                    // Jika akordeon ditutup, matikan juga suaranya jika sedang bermain
-                    window.speechSynthesis.cancel();
+                    // Jika akordeon ditutup, matikan juga suaranya jika sedang berjalan
+                    if ('speechSynthesis' in window) window.speechSynthesis.cancel();
                     document.querySelectorAll('.btn-audio').forEach(b => {
                         b.classList.remove('playing');
                         b.innerText = "🔊 Dengarkan Materi";
@@ -396,10 +396,29 @@
             });
         });
 
-        // 2. Logika Text-To-Speech Bahasa Indonesia
+        // ================= LOGIKA OPTIMASI AUDIO MULTIPLATFORM (ANDROID & iPHONE) =================
         let currentUtterance = null;
+        let availableVoices = [];
+
+        // Fungsi pra-muat suara untuk mengunci paket bahasa Android Chrome agar tidak bisu
+        function loadVoices() {
+            if ('speechSynthesis' in window) {
+                availableVoices = window.speechSynthesis.getVoices();
+            }
+        }
+        
+        // Pemicu muat suara di awal halaman terbuka
+        loadVoices();
+        if ('speechSynthesis' in window && window.speechSynthesis.onvoiceschanged !== undefined) {
+            window.speechSynthesis.onvoiceschanged = loadVoices;
+        }
 
         function toggleAudio(elementId, button) {
+            if (!('speechSynthesis' in window)) {
+                alert("Maaf, browser atau perangkat kamu belum mendukung fitur pembaca suara interaktif.");
+                return;
+            }
+
             // Jika audio sedang berjalan, tombol ini akan mematikan suaranya (Stop)
             if (button.classList.contains('playing')) {
                 window.speechSynthesis.cancel();
@@ -408,7 +427,7 @@
                 return;
             }
 
-            // Hentikan suara lain jika ada yang sedang berjalan
+            // Hentikan suara lain jika ada yang sedang berjalan sebelum memulai yang baru
             window.speechSynthesis.cancel();
             document.querySelectorAll('.btn-audio').forEach(b => {
                 b.classList.remove('playing');
@@ -420,11 +439,23 @@
             
             // Konfigurasi Web Speech API
             currentUtterance = new SpeechSynthesisUtterance(textToRead);
-            currentUtterance.lang = 'id-ID'; // Set suara robot ke Bahasa Indonesia resmi
-            currentUtterance.rate = 1.0;     // Kecepatan normal
+            currentUtterance.lang = 'id-ID'; // Set bahasa target utama ke Indonesia resmi
+            currentUtterance.rate = 1.0;     // Kecepatan membaca normal
 
-            // Event saat suara selesai dibacakan
+            // Jembatan khusus Android: Cari aset suara mesin Google Bahasa Indonesia di sistem
+            if (availableVoices.length > 0) {
+                const idVoice = availableVoices.find(v => v.lang.includes('id') || v.lang.includes('ID'));
+                if (idVoice) currentUtterance.voice = idVoice;
+            }
+
+            // Event saat suara selesai dibacakan secara natural
             currentUtterance.onend = function() {
+                button.classList.remove('playing');
+                button.innerText = "🔊 Dengarkan Materi";
+            };
+
+            // Event cadangan jika pembacaan terputus atau dihentikan paksa
+            currentUtterance.oncancel = function() {
                 button.classList.remove('playing');
                 button.innerText = "🔊 Dengarkan Materi";
             };
@@ -433,7 +464,7 @@
             button.classList.add('playing');
             button.innerText = "⏹️ Hentikan Suara";
 
-            // Jalankan suara!
+            // Jalankan suara dengan aman!
             window.speechSynthesis.speak(currentUtterance);
         }
     </script>
