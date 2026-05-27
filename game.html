@@ -27,7 +27,6 @@
         .options-grid { display: flex; flex-direction: column; gap: 12px; }
         .option-btn { background: #ffffff; border: 2px solid #e2e8f0; padding: 14px; text-align: left; border-radius: 10px; font-size: 1rem; font-weight: 600; cursor: pointer; color: #475569; transition: all 0.2s; width: 100%; }
         
-        /* State Kelas Warna (Jawaban Benar/Salah) */
         .option-btn.correct-visual { background: #dcfce7 !important; border-color: #22c55e !important; color: #14532d !important; }
         .option-btn.wrong-visual { background: #fee2e2 !important; border-color: #ef4444 !important; color: #7f1d1d !important; }
         .option-btn:disabled { cursor: not-allowed; }
@@ -46,7 +45,6 @@
         .rank-2 { background: #e2e8f0; color: #475569; }
         .rank-3 { background: #ffedd5; color: #9a3412; }
 
-        /* Desain Review Jawaban */
         .review-section { text-align: left; margin-top: 35px; border-top: 2px dashed #cbd5e1; padding-top: 25px; }
         .review-item { background: #f8fafc; border-left: 4px solid #cbd5e1; padding: 15px; margin-bottom: 15px; border-radius: 0 8px 8px 0; font-size: 0.95rem; }
         .review-item.pass { border-left-color: #22c55e; background: #f0fdf4; }
@@ -178,9 +176,12 @@
         let score = 0;
         let playerAnswers = [];
 
+        // PENYEMPURNAAN SOUND: Ditambahkan pengaman (try-catch murni) agar tidak menghentikan kode utama game jika browser menolak audio otomatis
         function playTone(type) {
             try {
-                const ctx = new (window.AudioContext || window.webkitAudioContext)();
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (!AudioContext) return;
+                const ctx = new AudioContext();
                 const osc = ctx.createOscillator();
                 const gain = ctx.createGain();
                 osc.connect(gain);
@@ -189,6 +190,174 @@
                 if (type === 'correct') {
                     osc.frequency.setValueAtTime(587.33, ctx.currentTime);
                     osc.frequency.setValueAtTime(880, ctx.currentTime + 0.1);
-                    gain.gain.setValueAtTime(0.2, ctx.currentTime);
+                    gain.gain.setValueAtTime(0.1, ctx.currentTime);
                     osc.start();
-                    osc.stop(
+                    osc.stop(ctx.currentTime + 0.2);
+                } else {
+                    osc.frequency.setValueAtTime(220, ctx.currentTime);
+                    osc.frequency.setValueAtTime(165, ctx.currentTime + 0.1);
+                    gain.gain.setValueAtTime(0.1, ctx.currentTime);
+                    osc.start();
+                    osc.stop(ctx.currentTime + 0.25);
+                }
+            } catch (e) { 
+                console.log("Audio ditangguhkan browser, game tetap berjalan aman."); 
+            }
+        }
+
+        function startGame() {
+            // Ambil text input dan pastikan dikonversi menjadi teks biasa (string)
+            const nameInput = document.getElementById("username").value.trim();
+            if (nameInput === "") {
+                alert("Hei detektif, masukkan namamu terlebih dahulu sebelum memulai misi! 😉");
+                return;
+            }
+            currentName = String(nameInput);
+            currentQuestionIndex = 0;
+            score = 0;
+            playerAnswers = [];
+            
+            document.getElementById("start-screen").classList.add("hidden");
+            document.getElementById("game-screen").classList.remove("hidden");
+            showQuestion();
+        }
+
+        function showQuestion() {
+            const currentQuestion = quizData[currentQuestionIndex];
+            
+            document.getElementById("question-counter").innerText = `Soal ${currentQuestionIndex + 1} dari ${quizData.length}`;
+            document.getElementById("score-counter").innerText = `Skor: ${score}`;
+            const progressPercent = (currentQuestionIndex / quizData.length) * 100;
+            document.getElementById("progress-fill").style.width = progressPercent + "%";
+            
+            document.getElementById("question-text").innerText = currentQuestion.q;
+            
+            const optionsContainer = document.getElementById("options-container");
+            optionsContainer.innerHTML = "";
+            
+            currentQuestion.a.forEach((optionText, idx) => {
+                const button = document.createElement("button");
+                button.className = "option-btn";
+                button.innerText = optionText;
+                button.onclick = () => checkAnswer(idx, button);
+                optionsContainer.appendChild(button);
+            });
+        }
+
+        function checkAnswer(selectedIndex, clickedButton) {
+            const currentQuestion = quizData[currentQuestionIndex];
+            const isCorrect = (selectedIndex === currentQuestion.correct);
+            const allButtons = document.querySelectorAll(".option-btn");
+            
+            allButtons.forEach(btn => btn.disabled = true);
+
+            playerAnswers.push({
+                question: currentQuestion.q,
+                userAnswer: currentQuestion.a[selectedIndex],
+                systemAnswer: currentQuestion.a[currentQuestion.correct],
+                isRight: isCorrect
+            });
+            
+            if (isCorrect) {
+                score += 10;
+                clickedButton.classList.add("correct-visual");
+                playTone('correct');
+            } else {
+                clickedButton.classList.add("wrong-visual");
+                allButtons[currentQuestion.correct].classList.add("correct-visual");
+                playTone('wrong');
+            }
+            
+            setTimeout(() => {
+                currentQuestionIndex++;
+                if (currentQuestionIndex < quizData.length) {
+                    showQuestion();
+                } else {
+                    endGame();
+                }
+            }, 1200);
+        }
+
+        function endGame() {
+            document.getElementById("game-screen").classList.add("hidden");
+            document.getElementById("result-screen").classList.remove("hidden");
+            
+            document.getElementById("final-name").innerText = currentName;
+            document.getElementById("final-score").innerText = score;
+            
+            saveScore(currentName, score);
+            displayLeaderboard();
+            displayReview();
+        }
+
+        function saveScore(name, finalScore) {
+            try {
+                let leaderboard = JSON.parse(localStorage.getItem("detektif_leaderboard")) || [];
+                const existingUserIndex = leaderboard.findIndex(entry => String(entry.name).toLowerCase() === String(name).toLowerCase());
+                
+                if (existingUserIndex !== -1) {
+                    if (finalScore > leaderboard[existingUserIndex].score) {
+                        leaderboard[existingUserIndex].score = finalScore;
+                    }
+                } else {
+                    leaderboard.push({ name: name, score: finalScore });
+                }
+                
+                leaderboard.sort((a, b) => b.score - a.score);
+                leaderboard = leaderboard.slice(0, 5);
+                localStorage.setItem("detektif_leaderboard", JSON.stringify(leaderboard));
+            } catch(e) { console.log("Gagal menyimpan leaderboard"); }
+        }
+
+        function displayLeaderboard() {
+            const leaderboard = JSON.parse(localStorage.getItem("detektif_leaderboard")) || [];
+            const tbody = document.getElementById("leaderboard-body");
+            tbody.innerHTML = "";
+            
+            if (leaderboard.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="3" style="text-align:center; color:#94a3b8;">Belum ada skor. Jadilah yang pertama!</td></tr>`;
+                return;
+            }
+            
+            leaderboard.forEach((entry, idx) => {
+                const rank = idx + 1;
+                let rankClass = `rank-badge rank-${rank}`;
+                if (rank > 3) rankClass = "rank-badge";
+                
+                const tr = document.createElement("tr");
+                tr.innerHTML = `
+                    <td><span class="${rankClass}">${rank}</span></td>
+                    <td style="font-weight: 600;">${entry.name}</td>
+                    <td style="text-align: right; font-weight: 700; color: #15803d;">${entry.score}</td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function displayReview() {
+            const reviewContainer = document.getElementById("review-container");
+            reviewContainer.innerHTML = "";
+
+            playerAnswers.forEach((item, index) => {
+                const div = document.createElement("div");
+                div.className = item.isRight ? "review-item pass" : "review-item fail";
+                
+                div.innerHTML = `
+                    <strong>Soal ${index + 1}:</strong> ${item.question}<br>
+                    <span style="color: ${item.isRight ? '#16a34a' : '#dc2626'}; font-weight: 600;">
+                        ${item.isRight ? '✅ Jawaban Anda Benar' : '❌ Jawaban Anda Salah'}: ${item.userAnswer}
+                    </span><br>
+                    ${!item.isRight ? `👉 <span style="color: #16a34a; font-weight: 600;">Jawaban Benar Sistem: ${item.systemAnswer}</span>` : ''}
+                `;
+                reviewContainer.appendChild(div);
+            });
+        }
+
+        function restartGame() {
+            document.getElementById("result-screen").classList.add("hidden");
+            document.getElementById("start-screen").classList.remove("hidden");
+            document.getElementById("username").value = "";
+        }
+    </script>
+</body>
+</html>
