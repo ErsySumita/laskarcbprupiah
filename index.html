@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Edukasi CBP Rupiah</title>
+    <title>Edukasi CBP Rupiah (Inklusif & Ramah Aksesibilitas)</title>
     <style>
         /* Tata Letak Dasar - Super Clean & Fresh */
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -20,9 +20,7 @@
             align-items: center;
             gap: 15px;
         }
-        /* Menampilkan Logo CBP Baru di Banner */
         .logo-cbp { width: auto; height: 110px; max-width: 100%; object-fit: contain; background: white; padding: 8px; border-radius: 12px; box-shadow: 0 4px 14px rgba(0,0,0,0.15); }
-        
         header h1 { font-size: 2.3rem; font-weight: 800; color: #ffffff; letter-spacing: -0.5px; } 
         header p { font-size: 1.1rem; color: #e0f2fe; font-weight: 500; opacity: 0.9; }
 
@@ -67,15 +65,17 @@
         .materi-img { width: 100%; max-width: 500px; border-radius: 8px; display: block; margin: 20px auto; box-shadow: 0 4px 12px rgba(0,0,0,0.06); border: 1px solid #e2e8f0; }
         .img-caption { text-align: center; font-size: 0.85rem; color: #64748b; margin-top: -12px; margin-bottom: 20px; font-style: italic; }
 
-        /* ================= GALERI VIDEO RESPONSIF & SUPER KEREN ================= */
+        /* ================= TOMBOL AUDIO TEXT TO SPEECH ================= */
+        .btn-audio { background: #0284c7; color: white; border: none; padding: 6px 14px; border-radius: 8px; font-size: 0.85rem; font-weight: 600; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; margin-bottom: 15px; transition: background 0.2s; }
+        .btn-audio:hover { background: #0369a1; }
+        .btn-audio.playing { background: #dc2626; }
+
+        /* ================= GALERI VIDEO ================= */
         .video-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 25px; margin-top: 20px; }
         .video-card { background: white; border-radius: 14px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.02); border: 1px solid #e2e8f0; transition: transform 0.3s, box-shadow 0.3s; }
         .video-card:hover { transform: translateY(-4px); box-shadow: 0 10px 20px rgba(0,0,0,0.06); }
-        
-        /* Membuat Pemutar Video Mengikuti Aspek Rasio 16:9 Otomatis */
         .video-wrapper { position: relative; padding-bottom: 56.25%; height: 0; overflow: hidden; background: #000; }
         .video-wrapper iframe { position: absolute; top: 0; left: 0; width: 100%; height: 100%; border: 0; }
-        
         .video-info { padding: 18px; }
         .video-info h4 { font-size: 1.05rem; color: #0f172a; font-weight: 700; margin-bottom: 6px; line-height: 1.4; }
         .video-info p { font-size: 0.85rem; color: #0284c7; font-weight: 600; display: flex; align-items: center; gap: 4px; }
@@ -86,318 +86,229 @@
 <body>
 
     <header>
-        <img src="LOGO CBP.png" alt="Logo CBP" class="logo-cbp" onerror="this.style.display='none'">
+        <img src="LOGO CBP.png" alt="Logo Gerakan Cinta, Bangga, Paham Rupiah" class="logo-cbp" onerror="this.style.display='none'">
         <h1>Cinta, Bangga, Paham Rupiah</h1>
         <p>Media Edukasi Interaktif Mengenal Mata Uang Negara Kita</p>
     </header>
 
-    <div class="container">
+    <main class="container">
         
         <h2 class="main-title">🎯 Pilih Topik Pembelajaran:</h2>
 
         <div class="accordion-item">
-            <button class="accordion-header">
+            <button class="accordion-header" aria-expanded="false" aria-controls="konten-sejarah">
                 <div class="header-main-content">
-                    <div class="header-icon">🇮🇩</div>
+                    <div class="header-icon" aria-hidden="true">🇮🇩</div>
                     <div class="header-text-block">
                         <h3>1. Pendahuluan & Sejarah</h3>
-                        <p>Mengenal asal-usul, arti, and gerakan penting CBP Rupiah.</p>
+                        <p>Mengenal asal-usul, arti, dan gerakan penting CBP Rupiah.</p>
                     </div>
                 </div>
-                <div class="arrow-icon">▼</div>
+                <div class="arrow-icon" aria-hidden="true">▼</div>
             </button>
-            <div class="accordion-content">
+            <div class="accordion-content" id="konten-sejarah" role="region">
                 <div class="materi-body">
-                    <p style="margin-top: 15px;"><strong>Rupiah</strong> adalah mata uang resmi Indonesia yang hadir dalam berbagai pecahan seperti Rp1.000, Rp50.000, hingga Rp100.000. Lebih dari sekadar alat pembayaran, setiap lembar Rupiah merupakan simbol perjuangan, kedaulatan, dan identitas bangsa yang merekam kekayaan tokoh, budaya, flora, serta fauna Nusantara.</p>
+                    <button class="btn-audio" onclick="toggleAudio('teks-sejarah', this)">🔊 Dengarkan Materi</button>
                     
-                    <img src="rupiah.png" alt="Uang Rupiah Indonesia" class="materi-img" onerror="this.style.display='none'">
-                    <p class="img-caption">Gambar: Ragam Pecahan Uang Rupiah Republik Indonesia</p>
+                    <div id="teks-sejarah">
+                        <p>Rupiah adalah mata uang resmi Indonesia yang hadir dalam berbagai pecahan seperti Rp1.000, Rp50.000, hingga Rp100.000. Lebih dari sekadar alat pembayaran, setiap lembar Rupiah merupakan simbol perjuangan, kedaulatan, dan identitas bangsa yang merekam kekayaan tokoh, budaya, flora, serta fauna Nusantara.</p>
+                        
+                        <img src="rupiah.png" alt="Foto ragam pecahan uang Rupiah kertas Republik Indonesia, menampilkan gambar pahlawan nasional dan kekayaan budaya" class="materi-img" onerror="this.style.display='none'">
+                        <p class="img-caption" aria-hidden="true">Gambar: Ragam Pecahan Uang Rupiah Republik Indonesia</p>
 
-                    📜 Sekilas Sejarah Rupiah</h5>
-                    <ul>
-                        <li><strong>Asal-usul Nama:</strong> Berasal dari bahasa Sanskerta <em>"rupya"</em> yang berarti perak atau kekayaan.</li>
-                        <li><strong>Hari Lahir:</strong> Resmi lahir pada <strong>30 Oktober 1946</strong> melalui penerbitan Oeang Republik Indonesia (ORI) sebagai wujud kedaulatan ekonomi pascakemerdekaan.</li>
-                        <li><strong>Pengelola Tunggal:</strong> Sejak tahun 1953, Bank Indonesia resmi memegang mandat penuh sebagai penerbit dan pengelola tunggal mata uang Rupiah.</li>
-                    </ul>
+                        <h5>Sekilas Sejarah Rupiah</h5>
+                        <ul>
+                            <li><strong>Asal-usul Nama:</strong> Berasal dari bahasa Sanskerta "rupya" yang berarti perak atau kekayaan.</li>
+                            <li><strong>Hari Lahir:</strong> Resmi lahir pada 30 Oktober 1946 melalui penerbitan Oeang Republik Indonesia (ORI) sebagai wujud kedaulatan ekonomi pascakemerdekaan.</li>
+                            <li><strong>Pengelola Tunggal:</strong> Sejak tahun 1953, Bank Indonesia resmi memegang mandat penuh sebagai penerbit dan pengelola tunggal mata uang Rupiah.</li>
+                        </ul>
 
-                    <div class="box-highlight-green">
-                        <h5>✨ Gerakan Cinta, Bangga, Paham (CBP) Rupiah</h5>
-                        <p>Untuk menjaga nilai dan kehormatan mata uang negara, Bank Indonesia mengajak seluruh masyarakat untuk menerapkan tiga sikap utama:</p>
-                        <ul style="margin-top: 8px;">
-                            <li><strong>Cinta Rupiah:</strong> Mengenali, merawat, dan menjaga fisik uang agar tidak rusak.</li>
-                            <li><strong>Bangga Rupiah:</strong> Memahami Rupiah sebagai simbol kedaulatan dan alat pembayaran sah yang mempersatukan bangsa.</li>
-                            <li><strong>Paham Rupiah:</strong> Menggunakan uang secara bijak untuk bertransaksi, berbelanja, dan berhemat guna mendukung perekonomian nasional.</li>
+                        <div class="box-highlight-green">
+                            <h5>Gerakan Cinta, Bangga, Paham (CBP) Rupiah</h5>
+                            <p>To menjaga nilai dan kehormatan mata uang negara, Bank Indonesia mengajak seluruh masyarakat untuk menerapkan tiga sikap utama:</p>
+                            <ul style="margin-top: 8px;">
+                                <li><strong>Cinta Rupiah:</strong> Mengenali, merawat, dan menjaga fisik uang agar tidak rusak.</li>
+                                <li><strong>Bangga Rupiah:</strong> Memahami Rupiah sebagai simbol kedaulatan dan alat pembayaran sah yang mempersatukan bangsa.</li>
+                                <li><strong>Paham Rupiah:</strong> Menggunakan uang secara bijak untuk bertransaksi, berbelanja, dan berhemat guna mendukung perekonomian nasional.</li>
+                            </ul>
+                        </div>
+
+                        <h5>Apa Itu Rupiah?</h5>
+                        <p>Rupiah adalah alat pembayaran yang sah di Indonesia. Artinya, semua transaksi di wilayah Indonesia wajib menggunakan rupiah sesuai Undang-Undang Mata Uang. Simbol rupiah adalah Rp.</p>
+                        
+                        <h5>Contoh penggunaan rupiah sehari-hari:</h5>
+                        <ul>
+                            <li>Membeli makanan</li>
+                            <li>Membayar ongkos kendaraan</li>
+                            <li>Menabung di bank</li>
+                            <li>Membeli buku sekolah</li>
+                            <li>Berbelanja di pasar atau toko</li>
                         </ul>
                     </div>
-
-                    <h5>❓ Apa Itu Rupiah?</h5>
-                    <p>Rupiah adalah alat pembayaran yang sah di Indonesia. Artinya, semua transaksi di wilayah Indonesia wajib menggunakan rupiah sesuai Undang-Undang Mata Uang. Simbol rupiah adalah <strong>Rp</strong>.</p>
-                    
-                    <h5>Contoh penggunaan rupiah sehari-hari:</h5>
-                    <ul>
-                        <li>🍔 Membeli makanan</li>
-                        <li>🚌 Membayar ongkos kendaraan</li>
-                        <li>🏦 Menabung di bank</li>
-                        <li>📚 Membeli buku sekolah</li>
-                        <li>🛍️ Berbelanja di pasar atau toko</li>
-                    </ul>
                 </div>
             </div>
         </div>
 
         <div class="accordion-item">
-            <button class="accordion-header">
+            <button class="accordion-header" aria-expanded="false" aria-controls="konten-cinta">
                 <div class="header-main-content">
-                    <div class="header-icon">❤️</div>
+                    <div class="header-icon" aria-hidden="true">❤️</div>
                     <div class="header-text-block">
                         <h3>2. Cinta Rupiah</h3>
                         <p>Sikap menghargai uang dengan metode 3D dan gerakan 5 Jangan.</p>
                     </div>
                 </div>
-                <div class="arrow-icon">▼</div>
+                <div class="arrow-icon" aria-hidden="true">▼</div>
             </button>
-            <div class="accordion-content">
+            <div class="accordion-content" id="konten-cinta" role="region">
                 <div class="materi-body">
-                    <p style="margin-top: 15px;"><strong>Cinta Rupiah</strong> adalah sikap menghargai, menjaga, dan memperlakukan uang rupiah dengan baik. Bukan hanya sekadar memakai uang, tetapi juga memahami cara menjaga keaslian dan kondisi uang.</p>
+                    <button class="btn-audio" onclick="toggleAudio('teks-cinta', this)">🔊 Dengarkan Materi</button>
                     
-                    <p style="margin-top: 10px;">Cinta rupiah terdiri dari:</p>
-                    <ul>
-                        <li>Mengenali Rupiah</li>
-                        <li>Merawat Rupiah</li>
-                        <li>Menjaga Rupiah dari uang palsu</li>
-                    </ul>
-
-                    <div class="sub-materi">
-                        <h4>🔍 A. Mengenali Rupiah</h4>
-                        <p>Pada lembaran uang rupiah asli terdapat ciri-ciri khusus berikut:</p>
-                        <ul>
-                            <li>🇮🇩 Lambang negara Garuda Pancasila</li>
-                            <li>👤 Gambar pahlawan nasional</li>
-                            <li>🔢 Nomor seri uang</li>
-                            <li>✍️ Tulisan resmi NKRI serta tanda tangan Pemerintah & Bank Indonesia</li>
-                        </ul>
+                    <div id="teks-cinta">
+                        <p>Cinta Rupiah adalah sikap menghargai, menjaga, dan memperlakukan uang rupiah dengan baik. Bukan hanya sekadar memakai uang, tetapi juga memahami cara menjaga keaslian dan kondisi uang.</p>
                         
-                        <img src="UANG.png" alt="Ciri-Ciri Lembaran Uang Rupiah" class="materi-img" onerror="this.style.display='none'">
-                        <p class="img-caption">Gambar: Ciri Khas Seni dan Atribut Resmi Lembaran Uang Rupiah</p>
-                        
-                        <div class="box-highlight">
-                            <h5>⭐ Cara Mengenali Uang Asli: Metode 3D</h5>
-                            <p>Metode terkenal dari Bank Indonesia:</p>
-                            <ul style="list-style: none; margin-left: 5px; margin-top: 8px;">
-                               <li><span class="badge-3d">1. DILIHAT</span> Perhatikan warna uang cerah, gambar jelas, dan benang pengaman terlihat.</li>
-                               <li><span class="badge-3d">2. DIRABA</span> Bagian pahlawan atau nominal akan terasa agak kasar jika diraba bagian permukaannya, teknik ini disebut juga dengan Intaglio.</li>
-                               <li><span class="badge-3d">3. DITERAWANG</span> Terlihat tanda air (watermark) gambar pahlawan saat diarahkan ke cahaya.</li>
-                            </ul>
-                        </div>
-                    </div>
-
-                    <div class="sub-materi">
-                        <h4>🧼 B. Merawat Rupiah</h4>
-                        <p>Merawat uang berarti menjaga uang agar tetap bersih dan tidak rusak.</p>
-                        
-                        <div class="box-highlight-red">
-                            <h5>🚫 Gerakan 5 Jangan</h5>
+                        <div class="sub-materi">
+                            <h4>A. Mengenali Rupiah</h4>
+                            <p>Pada lembaran uang rupiah asli terdapat ciri-ciri khusus berikut:</p>
                             <ul>
-                                <li>❌ Jangan dilipat</li>
-                                <li>❌ Jangan dicoret</li>
-                                <li>❌ Jangan distapler</li>
-                                <li>❌ Jangan diremas</li>
-                                <li>❌ Jangan dibasahi</li>
+                                <li>Lambang negara Garuda Pancasila</li>
+                                <li>Gambar pahlawan nasional</li>
+                                <li>Nomor seri uang</li>
+                                <li>Tulisan resmi NKRI serta tanda tangan Pemerintah dan Bank Indonesia</li>
                             </ul>
+                            
+                            <img src="UANG.png" alt="Infografis fitur pengaman rupiah asli, mendetailkan letak cetakan kasar intaglio, benang pengaman, and tanda air pahlawan" class="materi-img" onerror="this.style.display='none'">
+                            <p class="img-caption" aria-hidden="true">Gambar: Ciri Khas Seni dan Atribut Resmi Lembaran Uang Rupiah</p>
+                            
+                            <div class="box-highlight">
+                                <h5>Cara Mengenali Uang Asli: Metode 3D</h5>
+                                <ul style="list-style: none; margin-left: 5px;">
+                                   <li><span class="badge-3d">1. DILIHAT</span> Perhatikan warna uang cerah, gambar jelas, dan benang pengaman terlihat.</li>
+                                   <li><span class="badge-3d">2. DIRABA</span> Bagian pahlawan atau nominal akan terasa agak kasar jika diraba permukaannya. Teknik cetak ini disebut Intaglio, sengaja dirancang juga sebagai kode tunanetra untuk mengenali nominal uang.</li>
+                                   <li><span class="badge-3d">3. DITERAWANG</span> Terlihat tanda air atau watermark gambar pahlawan saat diarahkan ke cahaya.</li>
+                                </ul>
+                            </div>
                         </div>
 
-                        <h5>Mengapa harus dirawat?</h5>
-                        <p>Karena uang yang rusak akan sulit dikenali keasliannya, cepat sobek, mengurangi kualitas uang, dan membutuhkan biaya besar untuk mencetak ulang.</p>
-                        
-                        <h5>Contoh Sikap Merawat Rupiah:</h5>
-                        <ul>
-                            <li>👛 Menyimpan uang di dalam dompet agar rapi.</li>
-                            <li>🙅‍♂️ Tidak menjadikan uang mainan, tidak mencoret gambar pahlawan, dan tidak merobek uang.</li>
-                        </ul>
-                    </div>
+                        <div class="sub-materi">
+                            <h4>B. Merawat Rupiah</h4>
+                            <p>Merawat uang berarti menjaga uang agar tetap bersih dan tidak rusak.</p>
+                            
+                            <div class="box-highlight-red">
+                                <h5>Gerakan 5 Jangan</h5>
+                                <ul>
+                                    <li>Jangan dilipat</li>
+                                    <li>Jangan dicoret</li>
+                                    <li>Jangan distapler</li>
+                                    <li>Jangan diremas</li>
+                                    <li>Jangan dibasahi</li>
+                                </ul>
+                            </div>
 
-                    <div class="sub-materi">
-                        <h4>🛡️ C. Menjaga Rupiah dari Uang Palsu</h4>
-                        <p>Uang palsu sangat berbahaya dan merugikan. Masyarakat wajib:</p>
-                        <ul>
-                            <li>Mengenali ciri uang asli dengan saksama.</li>
-                            <li>Tidak menerima uang yang mencurigakan.</li>
-                            <li>🚨 Melapor ke kantor polisi atau kantor Bank Indonesia terdekat jika menemukan uang palsu.</li>
-                        </ul>
+                            <h5>Mengapa harus dirawat?</h5>
+                            <p>Karena uang yang rusak akan sulit dikenali keasliannya, cepat sobek, mengurangi kualitas uang, dan membutuhkan biaya besar untuk mencetak ulang.</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="accordion-item">
-            <button class="accordion-header">
+            <button class="accordion-header" aria-expanded="false" aria-controls="konten-bangga">
                 <div class="header-main-content">
-                    <div class="header-icon">👍</div>
+                    <div class="header-icon" aria-hidden="true">👍</div>
                     <div class="header-text-block">
                         <h3>3. Bangga Rupiah</h3>
                         <p>Memahami Rupiah sebagai simbol negara, kedaulatan, dan pemersatu.</p>
                     </div>
                 </div>
-                <div class="arrow-icon">▼</div>
+                <div class="arrow-icon" aria-hidden="true">▼</div>
             </button>
-            <div class="accordion-content">
+            <div class="accordion-content" id="konten-bangga" role="region">
                 <div class="materi-body">
-                    <p style="margin-top: 15px;"><strong>Bangga Rupiah</strong> berarti bangga menggunakan rupiah sebagai mata uang Indonesia. Rupiah bukan hanya alat pembayaran, tetapi juga simbol negara dan persatuan bangsa. Gerakan Bangga Rupiah memposisikan uang Rupiah sebagai Lambang Kedaulatan Negara yang sejajar dengan Bendera Merah Putih, Bahasa Indonesia, dan Lagu Kebangsaan.</p>
+                    <button class="btn-audio" onclick="toggleAudio('teks-bangga', this)">🔊 Dengarkan Materi</button>
+                    
+                    <div id="teks-bangga">
+                        <p>Bangga Rupiah berarti bangga menggunakan rupiah sebagai mata uang Indonesia. Rupiah bukan hanya alat pembayaran, tetapi juga simbol negara dan persatuan bangsa. Gerakan Bangga Rupiah memposisikan uang Rupiah sebagai Lambang Kedaulatan Negara yang sejajar dengan Bendera Merah Putih, Bahasa Indonesia, dan Lagu Kebangsaan.</p>
 
-                    <div class="sub-materi">
-                        <h4>💪 A. Rupiah Sebagai Simbol Kedaulatan</h4>
-                        <p>Kedaulatan berarti negara memiliki kekuasaan sendiri. Jika suatu negara memiliki mata uang sendiri, berarti negara itu mandiri dan berdaulat. Penggunaan rupiah menunjukkan Indonesia negara yang kuat dan merdeka.</p>
-                    </div>
+                        <div class="sub-materi">
+                            <h4>A. Rupiah Sebagai Simbol Kedaulatan</h4>
+                            <p>Kedaulatan berarti negara memiliki kekuasaan sendiri. Jika suatu negara memiliki mata uang sendiri, berarti negara itu mandiri dan berdaulat. Penggunaan rupiah menunjukkan Indonesia negara yang kuat dan merdeka.</p>
+                        </div>
 
-                    <div class="sub-materi">
-                        <h4>🛒 B. Rupiah Sebagai Alat Pembayaran yang Sah</h4>
-                        <p>Menurut UU No. 7 Tahun 2011, semua transaksi di wilayah Indonesia wajib menggunakan rupiah (seperti membeli makanan, tiket, belanja, atau bayar sekolah). Memakai rupiah membuat ekonomi kita menjadi lebih stabil.</p>
-                    </div>
-
-                    <div class="sub-materi">
-                        <h4>🤝 C. Rupiah Sebagai Pemersatu Bangsa</h4>
-                        <p>Meskipun Indonesia memiliki banyak suku, bahasa, dan budaya, seluruh masyarakat menggunakan satu mata uang yang sama, yaitu rupiah. Rupiah menjadi alat pemersatu bangsa.</p>
-                        
-                        <h5>🎨 Gambar dan Makna pada Rupiah</h5>
-                        <p>Di setiap lembar uang rupiah terdapat gambar pahlawan nasional, tarian daerah, alam Indonesia, dan kebudayaan Nusantara yang menunjukkan kekayaan budaya kita.</p>
+                        <div class="sub-materi">
+                            <h4>B. Rupiah Sebagai Alat Pembayaran yang Sah</h4>
+                            <p>Menurut Undang-Undang Nomor 7 Tahun 2011, semua transaksi di wilayah Indonesia wajib menggunakan rupiah. Memakai rupiah membuat ekonomi kita menjadi lebih stabil.</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
         <div class="accordion-item">
-            <button class="accordion-header">
+            <button class="accordion-header" aria-expanded="false" aria-controls="konten-paham">
                 <div class="header-main-content">
-                    <div class="header-icon">💡</div>
+                    <div class="header-icon" aria-hidden="true">💡</div>
                     <div class="header-text-block">
                         <h3>4. Paham Rupiah</h3>
                         <p>Cerdas mengelola uang lewat transaksi bijak, belanja, dan hemat.</p>
                     </div>
                 </div>
-                <div class="arrow-icon">▼</div>
+                <div class="arrow-icon" aria-hidden="true">▼</div>
             </button>
-            <div class="accordion-content">
+            <div class="accordion-content" id="konten-paham" role="region">
                 <div class="materi-body">
-                    <p style="margin-top: 15px;"><strong>Paham Rupiah</strong> berarti memahami cara menggunakan uang dengan bijak dan mengetahui peran rupiah dalam kehidupan sehari-hari.</p>
+                    <button class="btn-audio" onclick="toggleAudio('teks-paham', this)">🔊 Dengarkan Materi</button>
+                    
+                    <div id="teks-paham">
+                        <p>Paham Rupiah berarti memahami cara menggunakan uang dengan bijak dan mengetahui peran rupiah dalam kehidupan sehari-hari.</p>
 
-                    <div class="sub-materi">
-                        <h4>💳 A. Paham Bertransaksi</h4>
-                        <p>Uang berfungsi sebagai alat pembayaran, alat tukar, dan penyimpan nilai. Perkembangan ekonomi digital membuat transaksi semakin mudah dan nyaman, namun pada sisi lain, muncul risiko kerahasiaan data dan perlindungan konsumen, maka kita harus senantiasa bijak dan berhati-hati dalam bertransaksi. Transaksi saat ini bisa dilakukan secara:</p>
-                        <ul>
-                            <li>💵 <strong>Tunai:</strong> Menggunakan uang fisik.</li>
-                            <li>📱 <strong>Non-Tunai:</strong> Menggunakan QRIS, kartu, atau mobile banking.</li>
-                        </ul>
-                    </div>
+                        <div class="sub-materi">
+                            <h4>A. Paham Bertransaksi</h4>
+                            <p>Uang berfungsi sebagai alat pembayaran, alat tukar, dan penyimpan nilai. Transaksi saat ini bisa dilakukan secara Tunai menggunakan uang fisik, atau Non-Tunai menggunakan QRIS, kartu, atau mobile banking.</p>
+                        </div>
 
-                    <div class="sub-materi">
-                        <h4>🛍️ B. Paham Berbelanja</h4>
-                        <p>Sebagai mata uang tunggal, Rupiah berperan penting dalam perekonomian nasional. Kestabilan nilai Rupiah terhadap barang dan jasa, serta kestabilan nilai tukar Rupiah merupakan prasyarat bagi pertumbuhan ekonomi yang berkesinambungan. Belanja harus sesuai dengan kebutuhan, bukan sekadar menuruti keinginan semata.</p>
-                        
-                        <table>
-                            <thead>
-                                <tr>
-                                    <th>📋 Kebutuhan (Harus Ada)</th>
-                                    <th>✨ Keinginan (Bisa Ditunda)</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr><td>📚 Buku sekolah</td><td>🧸 Mainan baru</td></tr>
-                                <tr><td>🍲 Makanan pokok</td><td>🍦 Jajan berlebihan</td></tr>
-                                <tr><td>👔 Seragam sekolah</td><td>👟 Barang tren baru</td></tr>
-                            </tbody>
-                        </table>
-
-                        <h5>💡 Tips Belanja Bijak:</h5>
-                        <ul>
-                            <li>Membuat daftar belanjaan terlebih dahulu.</li>
-                            <li>Membandingkan harga, tidak boros, dan utamakan kebutuhan utama.</li>
-                        </ul>
-                    </div>
-
-                    <div class="sub-materi">
-                        <h4>💰 C. Paham Berhemat</h4>
-                        <p>Sikap berhemat merupakan sikap dan pikiran cermat dalam memanfaatkan sesuatu sehingga mampu mendapatkan nilai lebih banyak, lebih besar, dan lebih berarti. Sikap hemat tidak hanya memberikan manfaat bagi ketahanan ekonomi pribadi dan keluarga, tapi juga berdampak luas untuk mendukung pertumbuhan ekonomi nasional. Hemat bukan berarti pelit, melainkan menggunakan uang secara cerdas. Contohnya: membawa bekal, menabung rutin, menghindari barang tidak penting, dan merawat barang yang sudah dimiliki.</p>
+                        <div class="sub-materi">
+                            <h4>B. Paham Berbelanja</h4>
+                            <p>Belanja harus sesuai dengan kebutuhan, bukan sekadar menuruti keinginan semata. Utamakan buku sekolah, makanan pokok, dan seragam dibanding mainan baru atau jajan berlebihan.</p>
+                        </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div id="video" class="section-divider">
-            <h2 class="main-title" style="margin-bottom: 10px;">🎬 Galeri Video Edukasi Rupiah</h2>
-            <p style="text-align: center; color: #64748b; margin-bottom: 30px;">Tonton video resmi berikut untuk memperdalam wawasan seputar Rupiah</p>
-            
-            <div class="video-grid">
-                <div class="video-card">
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/gPZi7FDTUcI" allowfullscreen></iframe>
-                    </div>
-                    <div class="video-info">
-                        <h4>Rupiah dari Masa ke Masa</h4>
-                        <p>🎥 Sumber: Bank Indonesia Channel</p>
-                    </div>
+        <div class="section-divider">
+            <div id="jelajah3d" class="accordion-item" style="background: linear-gradient(135deg, #0f172a, #1e293b); border: none;">
+                <div style="padding: 30px; text-align: center; color: white;">
+                    <span style="font-size: 3rem;" aria-hidden="true">🌐</span>
+                    <h3 style="font-size: 1.5rem; margin: 10px 0 5px 0; color: #f8fafc;">Jelajah Rupiah</h3>
+                    <p style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 20px;">Eksplorasi Gambar Uang Rupiah Interaktif.</p>
+                    <a href="jelajah-3d.html" style="display: inline-block; background: #0284c7; color: white; text-decoration: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; transition: 0.3s; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);">
+                        Mulai Jelajah Sekarang →
+                    </a>
                 </div>
+            </div>
 
-                <div class="video-card">
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/dl-AKXDdY4Q" allowfullscreen></iframe>
-                    </div>
-                    <div class="video-info">
-                        <h4>Ciri-Ciri Keaslian Uang Rupiah Kertas</h4>
-                        <p>🎥 Sumber: Bank Indonesia Channel</p>
-                    </div>
-                </div>
-
-                <div class="video-card">
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/g1ubYWafc8Q" allowfullscreen></iframe>
-                    </div>
-                    <div class="video-info">
-                        <h4>Animasi Cinta, Bangga, Paham Rupiah</h4>
-                        <p>🎥 Sumber: Bank Indonesia Channel</p>
-                    </div>
-                </div>
-
-                <div class="video-card">
-                    <div class="video-wrapper">
-                        <iframe src="https://www.youtube.com/embed/E5dMoXCWzlI" allowfullscreen></iframe>
-                    </div>
-                    <div class="video-info">
-                        <h4>Kata Siapa Cinta,Bangga,Paham Rupiah itu Sulit?</h4>
-                        <p>🎥 Sumber: Bank Indonesia Channel</p>
-                    </div>
+            <div id="game" class="accordion-item" style="margin-top: 25px; background: linear-gradient(135deg, #15803d, #166534); border: none;">
+                <div style="padding: 30px; text-align: center; color: white;">
+                    <span style="font-size: 3rem;" aria-hidden="true">🎮</span>
+                    <h3 style="font-size: 1.5rem; margin: 10px 0 5px 0; color: #f8fafc;">Game Detektif Rupiah</h3>
+                    <p style="color: #bbf7d0; font-size: 0.95rem; margin-bottom: 20px;">Ayo Bermain Seru tentang Rupiah!</p>
+                    <a href="game.html" style="display: inline-block; background: #22c55e; color: white; text-decoration: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; transition: 0.3s; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);">
+                        Mainkan Game Sekarang →
+                    </a>
                 </div>
             </div>
         </div>
 
-        <div id="jelajah3d" class="accordion-item" style="margin-top: 50px; background: linear-gradient(135deg, #0f172a, #1e293b); border: none;">
-            <div style="padding: 30px; text-align: center; color: white;">
-                <span style="font-size: 3rem;">🌐</span>
-                <h3 style="font-size: 1.5rem; margin: 10px 0 5px 0; color: #f8fafc;">Jelajah Rupiah</h3>
-                <p style="color: #94a3b8; font-size: 0.95rem; margin-bottom: 20px;">Eksplorasi Gambar Uang Rupiah Interaktif.</p>
-                <a href="jelajah-3d.html" style="display: inline-block; background: #0284c7; color: white; text-decoration: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; transition: 0.3s; box-shadow: 0 4px 12px rgba(2, 132, 199, 0.3);" onmouseover="this.style.background='#0369a1'" onmouseout="this.style.background='#0284c7'">
-                    Mulai Jelajah Sekarang →
-                </a>
-            </div>
-        </div>
-
-        <div id="game" class="accordion-item" style="margin-top: 25px; background: linear-gradient(135deg, #15803d, #166534); border: none;">
-            <div style="padding: 30px; text-align: center; color: white;">
-                <span style="font-size: 3rem;">🎮</span>
-                <h3 style="font-size: 1.5rem; margin: 10px 0 5px 0; color: #f8fafc;">Game Detektif Rupiah</h3>
-                <p style="color: #bbf7d0; font-size: 0.95rem; margin-bottom: 20px;">Ayo Bermain Seru tentang Rupiah!</p>
-                <a href="game.html" style="display: inline-block; background: #22c55e; color: white; text-decoration: none; padding: 12px 25px; border-radius: 8px; font-weight: bold; transition: 0.3s; box-shadow: 0 4px 12px rgba(34, 197, 94, 0.3);" onmouseover="this.style.background='#16a34a'" onmouseout="this.style.background='#22c55e'">
-                    Mainkan Game Sekarang →
-                </a>
-            </div>
-        </div>
-
-    </div>
+    </main>
 
     <footer>
-        <p>&copy; 2026 Website Edukasi CBP Rupiah. Dibuat dengan penuh semangat.</p>
+        <p>&copy; 2026 Website Edukasi CBP Rupiah. Dibuat dengan penuh semangat untuk semua.</p>
     </footer>
 
     <script>
+        // 1. Logika Akordeon dengan Sinkronisasi ARIA Screen Reader
         const accHeaders = document.querySelectorAll(".accordion-header");
 
         accHeaders.forEach(header => {
@@ -405,13 +316,64 @@
                 this.classList.toggle("active");
                 const content = this.nextElementSibling;
                 
+                // Toggle status ARIA agar terbaca pembaca layar
+                const isExpanded = this.getAttribute("aria-expanded") === "true";
+                this.setAttribute("aria-expanded", !isExpanded);
+                
                 if (content.style.maxHeight && content.style.maxHeight !== "0px") {
                     content.style.maxHeight = "0px";
+                    // Jika akordeon ditutup, matikan juga suaranya jika sedang bermain
+                    window.speechSynthesis.cancel();
+                    document.querySelectorAll('.btn-audio').forEach(b => {
+                        b.classList.remove('playing');
+                        b.innerText = "🔊 Dengarkan Materi";
+                    });
                 } else {
                     content.style.maxHeight = content.scrollHeight + "px";
                 }
             });
         });
+
+        // 2. Logika Text-To-Speech Bahasa Indonesia
+        let currentUtterance = null;
+
+        function toggleAudio(elementId, button) {
+            // Jika audio sedang berjalan, tombol ini akan mematikan suaranya (Stop)
+            if (button.classList.contains('playing')) {
+                window.speechSynthesis.cancel();
+                button.classList.remove('playing');
+                button.innerText = "🔊 Dengarkan Materi";
+                return;
+            }
+
+            // Hentikan suara lain jika ada yang sedang berjalan
+            window.speechSynthesis.cancel();
+            document.querySelectorAll('.btn-audio').forEach(b => {
+                b.classList.remove('playing');
+                b.innerText = "🔊 Dengarkan Materi";
+            });
+
+            // Ambil teks bersih dari element kontainer materi
+            const textToRead = document.getElementById(elementId).innerText;
+            
+            // Konfigurasi Web Speech API
+            currentUtterance = new SpeechSynthesisUtterance(textToRead);
+            currentUtterance.lang = 'id-ID'; // Set suara robot ke Bahasa Indonesia resmi
+            currentUtterance.rate = 1.0;     // Kecepatan normal
+
+            // Event saat suara selesai dibacakan
+            currentUtterance.onend = function() {
+                button.classList.remove('playing');
+                button.innerText = "🔊 Dengarkan Materi";
+            };
+
+            // Tandai tombol sedang aktif memutar suara
+            button.classList.add('playing');
+            button.innerText = "⏹️ Hentikan Suara";
+
+            // Jalankan suara!
+            window.speechSynthesis.speak(currentUtterance);
+        }
     </script>
 
 </body>
